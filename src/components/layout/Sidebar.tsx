@@ -44,7 +44,7 @@ export function Sidebar() {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
           <Music className="h-5 w-5 text-white" />
         </div>
-        <span className="text-xl font-bold gradient-text">SoundHub</span>
+        <span className="text-xl font-bold gradient-text">Echo Sound</span>
       </div>
 
       {/* Navigation */}

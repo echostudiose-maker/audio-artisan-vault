@@ -109,25 +109,23 @@ export function AudioCard({ item, type }: AudioCardProps) {
           </div>
         )}
 
-        {/* Play Button Overlay */}
-        <div
-          className={cn(
-            "absolute inset-0 flex items-center justify-center bg-black/40 transition-opacity duration-200",
-            isHovered || isActive ? "opacity-100" : "opacity-0"
-          )}
-        >
+        {/* Play Button - Always Visible */}
+        <div className="absolute inset-0 flex items-center justify-center">
           <Button
             onClick={handlePlayPause}
             size="icon"
             className={cn(
-              "h-14 w-14 rounded-full transition-transform duration-200",
-              isActive && isPlaying ? "gradient-primary animate-pulse-glow" : "gradient-primary hover:scale-110"
+              "h-14 w-14 rounded-full shadow-lg transition-all duration-200",
+              isActive && isPlaying 
+                ? "gradient-primary animate-pulse-glow scale-100" 
+                : "bg-white/90 hover:bg-white text-foreground hover:scale-110",
+              isHovered && !isActive && "scale-105"
             )}
           >
             {isActive && isPlaying ? (
-              <Pause className="h-6 w-6" />
+              <Pause className="h-6 w-6 text-white" />
             ) : (
-              <Play className="h-6 w-6 ml-1" />
+              <Play className="h-6 w-6 ml-0.5" />
             )}
           </Button>
         </div>

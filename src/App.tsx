@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Music from "./pages/Music";
@@ -40,6 +41,7 @@ const App = () => (
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <WhatsAppButton />
             </BrowserRouter>
           </TooltipProvider>
         </PlayerProvider>
