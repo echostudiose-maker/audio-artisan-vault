@@ -110,7 +110,7 @@ export default {
   					boxShadow: '0 0 40px hsl(var(--primary) / 0.6)'
   				}
   			},
-  			'waveform': {
+  			waveform: {
   				'0%, 100%': {
   					transform: 'scaleY(0.5)'
   				},
@@ -125,11 +125,10 @@ export default {
   			'fade-in': 'fade-in 0.3s ease-out',
   			'slide-in-right': 'slide-in-right 0.3s ease-out',
   			'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-  			'waveform': 'waveform 0.5s ease-in-out infinite'
+  			waveform: 'waveform 0.5s ease-in-out infinite'
   		},
   		fontFamily: {
   			sans: [
-  				'Inter',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
@@ -147,7 +146,6 @@ export default {
   				'serif'
   			],
   			mono: [
-  				'SF Mono',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
