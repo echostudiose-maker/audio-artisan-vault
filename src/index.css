@@ -28,7 +28,7 @@
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 170 75% 41%;
+    --accent: 46 96.6851% 64.5098%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -38,7 +38,7 @@
     --input: 240 5.9% 90%;
     --ring: 262 83% 58%;
 
-    --radius: 3rem;
+    --radius: 0.75rem;
 
     /* Custom colors */
     --gradient-start: 262 83% 58%;
