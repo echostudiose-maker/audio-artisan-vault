@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=SF+Mono&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,40 +12,40 @@
     /* Light mode (optional fallback) */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    
+
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
-    
+
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    
+
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-    
+
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
-    
+
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    
+
     --accent: 170 75% 41%;
     --accent-foreground: 0 0% 100%;
-    
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    
+
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 262 83% 58%;
-    
+
     --radius: 0.75rem;
-    
+
     /* Custom colors */
     --gradient-start: 262 83% 58%;
     --gradient-end: 280 100% 70%;
     --success: 142 76% 36%;
     --warning: 38 92% 50%;
-    
+
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -53,43 +55,45 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 262 83% 58%;
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   }
 
   .dark {
     --background: 240 10% 4%;
     --foreground: 0 0% 95%;
-    
+
     --card: 240 10% 6%;
     --card-foreground: 0 0% 95%;
-    
+
     --popover: 240 10% 6%;
     --popover-foreground: 0 0% 95%;
-    
+
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-    
+
     --secondary: 240 5% 15%;
     --secondary-foreground: 0 0% 95%;
-    
+
     --muted: 240 5% 18%;
     --muted-foreground: 240 5% 55%;
-    
+
     --accent: 170 75% 41%;
     --accent-foreground: 0 0% 100%;
-    
+
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-    
+
     --border: 240 5% 20%;
     --input: 240 5% 20%;
     --ring: 262 83% 58%;
-    
+
     /* Custom colors */
     --gradient-start: 262 83% 58%;
     --gradient-end: 280 100% 70%;
     --success: 142 76% 46%;
     --warning: 38 92% 50%;
-    
+
     /* Sidebar */
     --sidebar-background: 240 10% 6%;
     --sidebar-foreground: 0 0% 85%;
@@ -99,6 +103,8 @@
     --sidebar-accent-foreground: 0 0% 95%;
     --sidebar-border: 240 5% 20%;
     --sidebar-ring: 262 83% 58%;
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   }
 }
 
@@ -106,7 +112,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
   }
@@ -134,7 +140,7 @@
   .gradient-primary {
     background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
   }
-  
+
   .gradient-text {
     background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
     -webkit-background-clip: text;
