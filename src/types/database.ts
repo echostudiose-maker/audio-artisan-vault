@@ -15,7 +15,17 @@ export type MusicEmotion =
   | 'dramatico' 
   | 'moderno' 
   | 'minimalista' 
-  | 'corporativo';
+  | 'corporativo'
+  | 'animada'
+  | 'confianca'
+  | 'esperanca'
+  | 'felicidade'
+  | 'inveja'
+  | 'mix'
+  | 'superacao'
+  | 'vibes'
+  | 'bonus'
+  | 'cortes';
 
 export type SfxStyle = 
   | 'whooshes' 
@@ -143,6 +153,16 @@ export const EMOTION_LABELS: Record<MusicEmotion, string> = {
   moderno: 'Moderno',
   minimalista: 'Minimalista',
   corporativo: 'Corporativo',
+  animada: 'Animada',
+  confianca: 'Confiança',
+  esperanca: 'Esperança',
+  felicidade: 'Felicidade',
+  inveja: 'Inveja',
+  mix: 'Mix',
+  superacao: 'Superação',
+  vibes: 'Vibes',
+  bonus: 'Bônus',
+  cortes: 'Cortes',
 };
 
 // Style labels for display
@@ -177,6 +197,16 @@ export const EMOTION_COLORS: Record<MusicEmotion, string> = {
   moderno: 'bg-violet-500',
   minimalista: 'bg-slate-500',
   corporativo: 'bg-sky-500',
+  animada: 'bg-lime-500',
+  confianca: 'bg-emerald-500',
+  esperanca: 'bg-sky-400',
+  felicidade: 'bg-yellow-400',
+  inveja: 'bg-green-600',
+  mix: 'bg-fuchsia-500',
+  superacao: 'bg-orange-600',
+  vibes: 'bg-violet-400',
+  bonus: 'bg-amber-400',
+  cortes: 'bg-red-600',
 };
 
 export const STYLE_COLORS: Record<SfxStyle, string> = {
