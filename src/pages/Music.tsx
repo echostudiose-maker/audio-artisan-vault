@@ -1,31 +1,27 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { AudioCard } from '@/components/audio/AudioCard';
+import { TrackRow } from '@/components/audio/TrackRow';
+import { CategoryCard } from '@/components/audio/CategoryCard';
+import { HorizontalScrollSection } from '@/components/audio/HorizontalScroll';
 import { EmotionFilter } from '@/components/audio/CategoryFilter';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Music, Search } from 'lucide-react';
+import { Search, Music } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, MusicEmotion } from '@/types/database';
-
-type SortOption = 'recent' | 'popular' | 'duration-asc' | 'duration-desc';
+import { EMOTION_LABELS, EMOTION_COLORS } from '@/types/database';
 
 export default function MusicPage() {
   const [tracks, setTracks] = useState<MusicTrack[]>([]);
-  const [filteredTracks, setFilteredTracks] = useState<MusicTrack[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedEmotion, setSelectedEmotion] = useState<MusicEmotion | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTracks();
   }, []);
-
-  useEffect(() => {
-    filterAndSortTracks();
-  }, [tracks, selectedEmotion, searchQuery, sortBy]);
 
   const fetchTracks = async () => {
     setIsLoading(true);
@@ -43,102 +39,88 @@ export default function MusicPage() {
     setIsLoading(false);
   };
 
-  const filterAndSortTracks = () => {
-    let result = [...tracks];
-
-    // Filter by emotion
-    if (selectedEmotion) {
-      result = result.filter((track) => track.emotion === selectedEmotion);
-    }
-
-    // Filter by search query
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (track) =>
-          track.title.toLowerCase().includes(query) ||
-          track.tags.some((tag) => tag.toLowerCase().includes(query))
-      );
+      navigate(`/explore?q=${encodeURIComponent(searchQuery.trim())}`);
     }
-
-    // Sort
-    switch (sortBy) {
-      case 'recent':
-        result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        break;
-      case 'popular':
-        result.sort((a, b) => b.download_count - a.download_count);
-        break;
-      case 'duration-asc':
-        result.sort((a, b) => a.duration_seconds - b.duration_seconds);
-        break;
-      case 'duration-desc':
-        result.sort((a, b) => b.duration_seconds - a.duration_seconds);
-        break;
-    }
-
-    setFilteredTracks(result);
   };
+
+  const filteredTracks = tracks.filter((track) => {
+    if (selectedEmotion && track.emotion !== selectedEmotion) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      return track.title.toLowerCase().includes(q) || track.tags.some((t) => t.toLowerCase().includes(q));
+    }
+    return true;
+  });
+
+  // Group by emotion for category cards
+  const emotionEntries = Object.entries(EMOTION_LABELS) as [MusicEmotion, string][];
 
   return (
     <MainLayout>
-      <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
-              <Music className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold">Músicas</h1>
-          </div>
-          <p className="text-muted-foreground">
-            Explore nossa biblioteca de músicas organizadas por emoção
+      {/* Hero Section - Epidemic Sound style */}
+      <section className="relative bg-gradient-to-b from-primary/8 to-transparent">
+        <div className="container py-16 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Encontre a trilha sonora perfeita
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+            Explore nossa biblioteca de músicas organizadas por emoção. Áudio profissional para seus vídeos, podcasts e projetos criativos.
           </p>
-        </div>
 
-        {/* Filters */}
-        <div className="mb-6 space-y-4">
-          <EmotionFilter selected={selectedEmotion} onSelect={setSelectedEmotion} />
-          
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nome ou tag..."
+                type="search"
+                placeholder="Buscar músicas, emoções, tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="h-14 pl-12 text-lg bg-card border-border rounded-xl"
               />
             </div>
-            <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="Ordenar por" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Mais recentes</SelectItem>
-                <SelectItem value="popular">Mais populares</SelectItem>
-                <SelectItem value="duration-asc">Duração (menor)</SelectItem>
-                <SelectItem value="duration-desc">Duração (maior)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          </form>
+        </div>
+      </section>
+
+      <div className="container pb-12">
+        {/* Emoções - Horizontal scroll cards */}
+        <HorizontalScrollSection title="Emoções" seeAllHref="/music" seeAllLabel="Ver todas as emoções">
+          {emotionEntries.map(([key, label]) => (
+            <CategoryCard
+              key={key}
+              label={label}
+              href={`/music?emotion=${key}`}
+              color={EMOTION_COLORS[key]}
+            />
+          ))}
+        </HorizontalScrollSection>
+
+        {/* Filters */}
+        <div className="mb-6">
+          <EmotionFilter selected={selectedEmotion} onSelect={setSelectedEmotion} />
         </div>
 
-        {/* Results count */}
-        <p className="mb-4 text-sm text-muted-foreground">
+        {/* Track count */}
+        <p className="text-sm text-muted-foreground mb-4">
           {filteredTracks.length} música{filteredTracks.length !== 1 ? 's' : ''} encontrada{filteredTracks.length !== 1 ? 's' : ''}
         </p>
 
-        {/* Grid */}
+        {/* Track List - Epidemic Sound style rows */}
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
-                <Skeleton className="aspect-square w-full" />
-                <div className="p-4 space-y-2">
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
+          <div className="space-y-2">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 px-4 py-3">
+                <Skeleton className="h-8 w-8 rounded-full" />
+                <Skeleton className="h-10 w-10 rounded-md" />
+                <div className="flex-1 space-y-1">
+                  <Skeleton className="h-4 w-48" />
+                  <Skeleton className="h-3 w-32" />
                 </div>
+                <Skeleton className="h-4 w-10" />
               </div>
             ))}
           </div>
@@ -151,9 +133,9 @@ export default function MusicPage() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredTracks.map((track) => (
-              <AudioCard key={track.id} item={track} type="music" />
+          <div className="space-y-1">
+            {filteredTracks.map((track, i) => (
+              <TrackRow key={track.id} item={track} type="music" index={i + 1} />
             ))}
           </div>
         )}

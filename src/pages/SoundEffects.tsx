@@ -1,31 +1,27 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { AudioCard } from '@/components/audio/AudioCard';
+import { TrackRow } from '@/components/audio/TrackRow';
+import { CategoryCard } from '@/components/audio/CategoryCard';
+import { HorizontalScrollSection } from '@/components/audio/HorizontalScroll';
 import { StyleFilter } from '@/components/audio/CategoryFilter';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Waves, Search } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { SoundEffect, SfxStyle } from '@/types/database';
-
-type SortOption = 'recent' | 'popular' | 'duration-asc' | 'duration-desc';
+import { STYLE_LABELS, STYLE_COLORS } from '@/types/database';
 
 export default function SoundEffectsPage() {
   const [effects, setEffects] = useState<SoundEffect[]>([]);
-  const [filteredEffects, setFilteredEffects] = useState<SoundEffect[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStyle, setSelectedStyle] = useState<SfxStyle | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEffects();
   }, []);
-
-  useEffect(() => {
-    filterAndSortEffects();
-  }, [effects, selectedStyle, searchQuery, sortBy]);
 
   const fetchEffects = async () => {
     setIsLoading(true);
@@ -43,101 +39,80 @@ export default function SoundEffectsPage() {
     setIsLoading(false);
   };
 
-  const filterAndSortEffects = () => {
-    let result = [...effects];
-
-    // Filter by style
-    if (selectedStyle) {
-      result = result.filter((effect) => effect.style === selectedStyle);
-    }
-
-    // Filter by search query
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (effect) =>
-          effect.title.toLowerCase().includes(query) ||
-          effect.tags.some((tag) => tag.toLowerCase().includes(query))
-      );
+      navigate(`/explore?q=${encodeURIComponent(searchQuery.trim())}`);
     }
-
-    // Sort
-    switch (sortBy) {
-      case 'recent':
-        result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        break;
-      case 'popular':
-        result.sort((a, b) => b.download_count - a.download_count);
-        break;
-      case 'duration-asc':
-        result.sort((a, b) => a.duration_seconds - b.duration_seconds);
-        break;
-      case 'duration-desc':
-        result.sort((a, b) => b.duration_seconds - a.duration_seconds);
-        break;
-    }
-
-    setFilteredEffects(result);
   };
+
+  const filteredEffects = effects.filter((effect) => {
+    if (selectedStyle && effect.style !== selectedStyle) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      return effect.title.toLowerCase().includes(q) || effect.tags.some((t) => t.toLowerCase().includes(q));
+    }
+    return true;
+  });
+
+  const styleEntries = Object.entries(STYLE_LABELS) as [SfxStyle, string][];
 
   return (
     <MainLayout>
-      <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
-              <Waves className="h-6 w-6 text-accent-foreground" />
-            </div>
-            <h1 className="text-3xl font-bold">Efeitos Sonoros</h1>
-          </div>
-          <p className="text-muted-foreground">
-            Explore nossa coleção de efeitos sonoros organizados por estilo
+      {/* Hero */}
+      <section className="relative bg-gradient-to-b from-primary/8 to-transparent">
+        <div className="container py-16 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Efeitos Sonoros</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+            Explore nossa coleção de efeitos sonoros organizados por estilo para dar vida aos seus projetos.
           </p>
-        </div>
-
-        {/* Filters */}
-        <div className="mb-6 space-y-4">
-          <StyleFilter selected={selectedStyle} onSelect={setSelectedStyle} />
-          
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nome ou tag..."
+                type="search"
+                placeholder="Buscar efeitos sonoros, estilos, tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="h-14 pl-12 text-lg bg-card border-border rounded-xl"
               />
             </div>
-            <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="Ordenar por" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Mais recentes</SelectItem>
-                <SelectItem value="popular">Mais populares</SelectItem>
-                <SelectItem value="duration-asc">Duração (menor)</SelectItem>
-                <SelectItem value="duration-desc">Duração (maior)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          </form>
+        </div>
+      </section>
+
+      <div className="container pb-12">
+        {/* Styles - horizontal cards */}
+        <HorizontalScrollSection title="Estilos" seeAllHref="/sfx" seeAllLabel="Ver todos os estilos">
+          {styleEntries.map(([key, label]) => (
+            <CategoryCard
+              key={key}
+              label={label}
+              href={`/sfx?style=${key}`}
+              color={STYLE_COLORS[key]}
+            />
+          ))}
+        </HorizontalScrollSection>
+
+        {/* Filters */}
+        <div className="mb-6">
+          <StyleFilter selected={selectedStyle} onSelect={setSelectedStyle} />
         </div>
 
-        {/* Results count */}
-        <p className="mb-4 text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground mb-4">
           {filteredEffects.length} efeito{filteredEffects.length !== 1 ? 's' : ''} encontrado{filteredEffects.length !== 1 ? 's' : ''}
         </p>
 
-        {/* Grid */}
+        {/* Track List */}
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
-                <Skeleton className="aspect-square w-full" />
-                <div className="p-4 space-y-2">
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
+          <div className="space-y-2">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 px-4 py-3">
+                <Skeleton className="h-8 w-8 rounded-full" />
+                <Skeleton className="h-10 w-10 rounded-md" />
+                <div className="flex-1 space-y-1">
+                  <Skeleton className="h-4 w-48" />
+                  <Skeleton className="h-3 w-32" />
                 </div>
               </div>
             ))}
@@ -151,9 +126,9 @@ export default function SoundEffectsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredEffects.map((effect) => (
-              <AudioCard key={effect.id} item={effect} type="sfx" />
+          <div className="space-y-1 bg-card rounded-xl border border-border p-2">
+            {filteredEffects.map((effect, i) => (
+              <TrackRow key={effect.id} item={effect} type="sfx" index={i + 1} />
             ))}
           </div>
         )}
