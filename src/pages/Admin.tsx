@@ -13,6 +13,7 @@ import { EMOTION_LABELS, STYLE_LABELS, type MusicEmotion, type SfxStyle } from '
 import { Upload, Music, Waves, Loader2, CheckCircle, AlertCircle, X, FileAudio, ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { StyleCoversManager } from '@/components/admin/StyleCoversManager';
+import { EmotionCoversManager } from '@/components/admin/EmotionCoversManager';
 
 interface FileUploadItem {
   file: File;
@@ -45,6 +46,9 @@ export default function Admin() {
             <TabsTrigger value="covers" className="gap-2">
               <ImageIcon className="h-4 w-4" /> Capas SFX
             </TabsTrigger>
+            <TabsTrigger value="emotion-covers" className="gap-2">
+              <ImageIcon className="h-4 w-4" /> Capas Músicas
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="music">
@@ -55,6 +59,9 @@ export default function Admin() {
           </TabsContent>
           <TabsContent value="covers">
             <StyleCoversManager />
+          </TabsContent>
+          <TabsContent value="emotion-covers">
+            <EmotionCoversManager />
           </TabsContent>
         </Tabs>
       </div>

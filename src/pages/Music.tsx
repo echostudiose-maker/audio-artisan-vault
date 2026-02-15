@@ -16,6 +16,7 @@ export default function MusicPage() {
   const [tracks, setTracks] = useState<MusicTrack[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [emotionCovers, setEmotionCovers] = useState<Record<string, string>>({});
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ export default function MusicPage() {
 
   useEffect(() => {
     fetchTracks();
+    fetchEmotionCovers();
   }, []);
 
   const fetchTracks = async () => {
@@ -47,6 +49,15 @@ export default function MusicPage() {
       setTracks(data as MusicTrack[]);
     }
     setIsLoading(false);
+  };
+
+  const fetchEmotionCovers = async () => {
+    const { data } = await supabase.from('music_emotion_covers').select('emotion, cover_url');
+    if (data) {
+      const map: Record<string, string> = {};
+      data.forEach((row: any) => { map[row.emotion] = row.cover_url; });
+      setEmotionCovers(map);
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -105,6 +116,7 @@ export default function MusicPage() {
               label={label}
               href={`/music?emotion=${key}`}
               color={EMOTION_COLORS[key]}
+              coverUrl={emotionCovers[key]}
             />
           ))}
         </HorizontalScrollSection>
