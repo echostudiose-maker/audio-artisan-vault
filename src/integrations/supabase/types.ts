@@ -240,6 +240,30 @@ export type Database = {
         }
         Relationships: []
       }
+      sfx_style_covers: {
+        Row: {
+          cover_url: string
+          created_at: string
+          id: string
+          style: Database["public"]["Enums"]["sfx_style"]
+          updated_at: string
+        }
+        Insert: {
+          cover_url: string
+          created_at?: string
+          id?: string
+          style: Database["public"]["Enums"]["sfx_style"]
+          updated_at?: string
+        }
+        Update: {
+          cover_url?: string
+          created_at?: string
+          id?: string
+          style?: Database["public"]["Enums"]["sfx_style"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sound_effects: {
         Row: {
           created_at: string

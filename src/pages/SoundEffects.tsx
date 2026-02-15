@@ -16,6 +16,7 @@ export default function SoundEffectsPage() {
   const [effects, setEffects] = useState<SoundEffect[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [styleCovers, setStyleCovers] = useState<Record<string, string>>({});
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ export default function SoundEffectsPage() {
 
   useEffect(() => {
     fetchEffects();
+    fetchStyleCovers();
   }, []);
 
   const fetchEffects = async () => {
@@ -47,6 +49,15 @@ export default function SoundEffectsPage() {
       setEffects(data as SoundEffect[]);
     }
     setIsLoading(false);
+  };
+
+  const fetchStyleCovers = async () => {
+    const { data } = await supabase.from('sfx_style_covers').select('style, cover_url');
+    if (data) {
+      const map: Record<string, string> = {};
+      data.forEach((row: any) => { map[row.style] = row.cover_url; });
+      setStyleCovers(map);
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -100,6 +111,7 @@ export default function SoundEffectsPage() {
               label={label}
               href={`/sfx?style=${key}`}
               color={STYLE_COLORS[key]}
+              coverUrl={styleCovers[key]}
             />
           ))}
         </HorizontalScrollSection>
