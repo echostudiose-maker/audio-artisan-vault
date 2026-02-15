@@ -122,7 +122,7 @@ export default function Auth() {
               </div>
             </div>
             <div>
-              <CardTitle className="text-2xl">Echo Sound</CardTitle>
+              <CardTitle className="text-2xl"><span className="text-primary">Echo</span>Music</CardTitle>
               <CardDescription>
                 {mode === 'login' 
                   ? 'Entre na sua conta para continuar' 

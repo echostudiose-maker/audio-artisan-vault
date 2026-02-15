@@ -4,45 +4,26 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Check, Crown, Zap, Shield, Download, Music, Waves, Headphones } from 'lucide-react';
+import { Check, Crown, Zap, Shield, Download, Headphones, Calendar, Video } from 'lucide-react';
 
 const plans = [
-  {
-    name: 'Gratuito',
-    description: 'Explore a biblioteca',
-    price: 'R$ 0',
-    period: '/mês',
-    features: [
-      'Acesso a previews ilimitados',
-      'Navegação por categorias',
-      'Busca inteligente',
-      'Criar conta',
-    ],
-    limitations: [
-      'Sem downloads',
-      'Sem favoritos',
-      'Sem playlists',
-    ],
-    cta: 'Começar Grátis',
-    href: '/auth?mode=signup',
-    popular: false,
-  },
   {
     name: 'Premium Mensal',
     description: 'Para criadores frequentes',
     price: 'R$ 49',
     period: '/mês',
     features: [
+      'Músicas separadas por emoção',
       'Downloads ilimitados',
+      'Atualização de músicas todo dia 7',
       'Acesso a toda biblioteca',
       'Favoritos e playlists',
       'Histórico de downloads',
       'Licença comercial incluída',
       'Suporte prioritário',
-      'Novidades exclusivas',
     ],
     limitations: [],
-    cta: 'Assinar Agora',
+    cta: 'Assinar Mensal',
     href: '/checkout?plan=monthly',
     popular: true,
   },
@@ -53,7 +34,8 @@ const plans = [
     period: '/ano',
     originalPrice: 'R$ 588',
     features: [
-      'Todos os benefícios Premium',
+      'Todos os benefícios do Mensal',
+      'Live Edit a cada 15 dias',
       '2 meses grátis',
       'Acesso antecipado a novidades',
       'Badge exclusivo de apoiador',
@@ -78,14 +60,14 @@ const benefits = [
     description: 'Use em projetos comerciais sem preocupações',
   },
   {
-    icon: Zap,
-    title: 'Atualizações Constantes',
-    description: 'Novos arquivos adicionados a cada 15 dias',
+    icon: Calendar,
+    title: 'Músicas Novas Todo Dia 7',
+    description: 'Biblioteca atualizada mensalmente com novos conteúdos',
   },
   {
-    icon: Headphones,
-    title: 'Alta Qualidade',
-    description: 'Arquivos em formato profissional de alta fidelidade',
+    icon: Video,
+    title: 'Live Edit (Anual)',
+    description: 'Sessões de edição ao vivo a cada 15 dias para assinantes anuais',
   },
 ];
 
@@ -110,7 +92,7 @@ export default function PricingPage() {
         </div>
 
         {/* Plans Grid */}
-        <div className="mx-auto max-w-5xl grid gap-6 md:grid-cols-3 mb-16">
+        <div className="mx-auto max-w-4xl grid gap-8 md:grid-cols-2 mb-16">
           {plans.map((plan) => (
             <Card
               key={plan.name}
@@ -155,12 +137,6 @@ export default function PricingPage() {
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}
-                  {plan.limitations.map((limitation) => (
-                    <li key={limitation} className="flex items-start gap-2 text-muted-foreground">
-                      <span className="h-5 w-5 flex items-center justify-center shrink-0">—</span>
-                      <span className="text-sm">{limitation}</span>
-                    </li>
-                  ))}
                 </ul>
 
                 <Link to={user ? plan.href : '/auth?mode=signup'}>
@@ -169,7 +145,7 @@ export default function PricingPage() {
                     variant={plan.popular ? 'default' : 'outline'}
                     disabled={isSubscribed && plan.name !== 'Gratuito'}
                   >
-                    {isSubscribed && plan.name !== 'Gratuito' ? 'Plano Atual' : plan.cta}
+                    {isSubscribed ? 'Plano Atual' : plan.cta}
                   </Button>
                 </Link>
               </CardContent>
