@@ -59,8 +59,16 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         collapsed ? 'w-16' : 'w-64'
       )}
     >
-      {/* Logo + Toggle */}
-      <div className="flex h-16 items-center justify-between border-b border-border px-3">
+      {/* Floating toggle on the sidebar edge */}
+      <button
+        onClick={onToggle}
+        className="absolute -right-3 top-20 z-50 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-sidebar text-muted-foreground shadow-md hover:bg-sidebar-accent hover:text-foreground transition-colors"
+      >
+        {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
+      </button>
+
+      {/* Logo */}
+      <div className="flex h-16 items-center border-b border-border px-3">
         <Link to="/" className="flex items-center gap-2 overflow-hidden">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary">
             <Music className="h-5 w-5 text-white" />
@@ -72,12 +80,6 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </span>
           )}
         </Link>
-        <button
-          onClick={onToggle}
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </button>
       </div>
 
       {/* Navigation */}
