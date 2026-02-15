@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { TrackRow } from '@/components/audio/TrackRow';
 import { CategoryCard } from '@/components/audio/CategoryCard';
@@ -15,9 +15,19 @@ import { EMOTION_LABELS, EMOTION_COLORS } from '@/types/database';
 export default function MusicPage() {
   const [tracks, setTracks] = useState<MusicTrack[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedEmotion, setSelectedEmotion] = useState<MusicEmotion | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const selectedEmotion = (searchParams.get('emotion') as MusicEmotion) || null;
+
+  const setSelectedEmotion = (emotion: MusicEmotion | null) => {
+    if (emotion) {
+      navigate(`/music?emotion=${emotion}`);
+    } else {
+      navigate('/music');
+    }
+  };
 
   useEffect(() => {
     fetchTracks();
