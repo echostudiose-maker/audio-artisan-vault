@@ -16,10 +16,10 @@ export type MusicEmotion =
   | 'moderno' 
   | 'minimalista' 
   | 'corporativo'
-  | 'animada'
+  
   | 'confianca'
   | 'esperanca'
-  | 'felicidade'
+  
   | 'inveja'
   | 'mix'
   | 'superacao'
@@ -32,9 +32,9 @@ export type SfxStyle =
   | 'impacts' 
   | 'clicks' 
   | 'glitches'
-  | 'interface' 
+   
   | 'natureza' 
-  | 'ambiente' 
+   
   | 'explosoes'
   | 'cinematograficos' 
   | 'tecnologicos'
@@ -73,7 +73,7 @@ export type SfxStyle =
   | 'torque'
   | 'transition_sounds'
   | 'trem'
-  | 'whizz'
+  
   | 'wind_lightning'
   | 'writing';
 
@@ -190,10 +190,10 @@ export const EMOTION_LABELS: Record<MusicEmotion, string> = {
   moderno: 'Moderno',
   minimalista: 'Minimalista',
   corporativo: 'Corporativo',
-  animada: 'Animada',
+  
   confianca: 'Confiança',
   esperanca: 'Esperança',
-  felicidade: 'Felicidade',
+  
   inveja: 'Inveja',
   mix: 'Mix',
   superacao: 'Superação',
@@ -208,9 +208,9 @@ export const STYLE_LABELS: Record<SfxStyle, string> = {
   impacts: 'Impacts',
   clicks: 'Click',
   glitches: 'Glitch',
-  interface: 'Interface',
+  
   natureza: 'Natureza',
-  ambiente: 'Ambiente',
+  
   explosoes: 'Explosões',
   cinematograficos: 'Cinematográficos',
   tecnologicos: 'Tecnológicos',
@@ -249,7 +249,7 @@ export const STYLE_LABELS: Record<SfxStyle, string> = {
   torque: 'Torque',
   transition_sounds: 'Transition Sounds',
   trem: 'Trem',
-  whizz: 'Whizz',
+  
   wind_lightning: 'Wind & Lightninig',
   writing: 'Writing',
 };
@@ -271,10 +271,10 @@ export const EMOTION_COLORS: Record<MusicEmotion, string> = {
   moderno: 'bg-violet-500',
   minimalista: 'bg-slate-500',
   corporativo: 'bg-sky-500',
-  animada: 'bg-lime-500',
+  
   confianca: 'bg-emerald-500',
   esperanca: 'bg-sky-400',
-  felicidade: 'bg-yellow-400',
+  
   inveja: 'bg-green-600',
   mix: 'bg-fuchsia-500',
   superacao: 'bg-orange-600',
@@ -288,9 +288,9 @@ export const STYLE_COLORS: Record<SfxStyle, string> = {
   impacts: 'bg-red-500',
   clicks: 'bg-green-500',
   glitches: 'bg-pink-500',
-  interface: 'bg-blue-500',
+  
   natureza: 'bg-emerald-500',
-  ambiente: 'bg-teal-500',
+  
   explosoes: 'bg-orange-500',
   cinematograficos: 'bg-indigo-500',
   tecnologicos: 'bg-violet-500',
@@ -329,7 +329,7 @@ export const STYLE_COLORS: Record<SfxStyle, string> = {
   torque: 'bg-zinc-600',
   transition_sounds: 'bg-purple-500',
   trem: 'bg-stone-500',
-  whizz: 'bg-cyan-400',
+  
   wind_lightning: 'bg-sky-500',
   writing: 'bg-neutral-400',
 };
