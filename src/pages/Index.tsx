@@ -81,17 +81,28 @@ export default function Index() {
 
   return (
     <MainLayout>
-      {/* Hero Section - Epidemic Sound style */}
+      {/* Hero Section */}
       <section className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
         <div className="container relative py-20 md:py-28 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-            Músicas e efeitos sonoros{' '}
-            <span className="text-primary">sem royalties</span>
+            Deixe o seu vídeo livre de direitos autorais{' '}
+            <span className="text-primary">com músicas atuais.</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            No nosso catálogo exclusivo, você encontra músicas e efeitos sonoros de alta qualidade para qualquer ocasião.
+            Acesse agora a maior coleção de músicas e efeitos sonoros autênticos e emocionalmente impactantes para qualquer ocasião.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+              <Music className="h-4 w-4" /> + de 1000 músicas
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+              <Waves className="h-4 w-4" /> + de 5000 efeitos sonoros
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+              <Zap className="h-4 w-4" /> Atualizações todo mês
+            </span>
+          </div>
           <Link to="/auth?mode=signup">
             <Button size="lg" className="gradient-primary hover:opacity-90 text-base px-8">
               Criar conta grátis
@@ -120,26 +131,28 @@ export default function Index() {
 
       <div className="container py-10">
         {/* Emoções (Moods) - horizontal cards */}
-        <HorizontalScrollSection title="Emoções" seeAllHref="/music" seeAllLabel="Ver todas as emoções">
+        <HorizontalScrollSection
+          title="Emoções"
+          seeAllLabel="Ver todas as emoções"
+          allItems={emotionEntries.map(([key, label]) => (
+            <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
+          ))}
+        >
           {emotionEntries.map(([key, label]) => (
-            <CategoryCard
-              key={key}
-              label={label}
-              href={`/music?emotion=${key}`}
-              color={EMOTION_COLORS[key]}
-            />
+            <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
           ))}
         </HorizontalScrollSection>
 
         {/* Efeitos Sonoros (Styles) - horizontal cards */}
-        <HorizontalScrollSection title="Efeitos Sonoros" seeAllHref="/sfx" seeAllLabel="Ver todos os estilos">
+        <HorizontalScrollSection
+          title="Efeitos Sonoros"
+          seeAllLabel="Ver todos os estilos"
+          allItems={styleEntries.map(([key, label]) => (
+            <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
+          ))}
+        >
           {styleEntries.map(([key, label]) => (
-            <CategoryCard
-              key={key}
-              label={label}
-              href={`/sfx?style=${key}`}
-              color={STYLE_COLORS[key]}
-            />
+            <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
           ))}
         </HorizontalScrollSection>
 
