@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,6 +26,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { Playlist } from '@/types/database';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
 
 export default function PlaylistsPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -122,8 +132,7 @@ export default function PlaylistsPage() {
   return (
     <MainLayout>
       <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8 flex items-center justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
@@ -179,9 +188,9 @@ export default function PlaylistsPage() {
               </div>
             </DialogContent>
           </Dialog>
-        </div>
+        </motion.div>
 
-        {/* Playlists Grid */}
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.15 }}>
         {isLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -253,6 +262,7 @@ export default function PlaylistsPage() {
             ))}
           </div>
         )}
+        </motion.div>
       </div>
     </MainLayout>
   );
