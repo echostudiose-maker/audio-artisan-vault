@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=SF+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -116,6 +115,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 0.02em;
   }
 
   /* Custom scrollbar */
