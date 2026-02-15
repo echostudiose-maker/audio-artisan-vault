@@ -150,7 +150,7 @@ export default function SoundEffectsPage() {
         ) : (
           <div className="space-y-1 bg-card rounded-xl border border-border p-2">
             {filteredEffects.map((effect, i) => (
-              <TrackRow key={effect.id} item={effect} type="sfx" index={i + 1} />
+              <TrackRow key={effect.id} item={effect} type="sfx" index={i + 1} coverOverride={styleCovers[effect.style]} />
             ))}
           </div>
         )}

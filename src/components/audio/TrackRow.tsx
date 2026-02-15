@@ -13,9 +13,10 @@ interface TrackRowProps {
   item: MusicTrack | SoundEffect;
   type: 'music' | 'sfx';
   index?: number;
+  coverOverride?: string;
 }
 
-export function TrackRow({ item, type, index }: TrackRowProps) {
+export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
   const { play, pause, isPlaying, isCurrentTrack } = usePlayer();
   const { user, isSubscribed } = useAuth();
 
@@ -57,7 +58,7 @@ export function TrackRow({ item, type, index }: TrackRowProps) {
     toast.success('Download iniciado!');
   };
 
-  const coverImage = isMusic ? track.cover_image_url : sfx.icon_url;
+  const coverImage = coverOverride || (isMusic ? track.cover_image_url : sfx.icon_url);
 
   return (
     <div
