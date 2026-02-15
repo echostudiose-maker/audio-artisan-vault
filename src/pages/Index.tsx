@@ -110,8 +110,16 @@ export default function Index() {
   return (
     <MainLayout>
       {/* Hero Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
+      <section className="relative overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          src="/videos/hero-bg.mp4"
+        />
+        <div className="absolute inset-0 bg-background/60" />
         <div className="container relative py-20 md:py-28 text-center">
           <motion.h1
             className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-tight"
