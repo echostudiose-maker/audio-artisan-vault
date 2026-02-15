@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { AudioCard } from '@/components/audio/AudioCard';
+import { TrackRow } from '@/components/audio/TrackRow';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, Music, Waves, TrendingUp, Clock, Sparkles } from 'lucide-react';
+import { Search, Music, Waves } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, SoundEffect } from '@/types/database';
 
@@ -23,32 +23,17 @@ export default function ExplorePage() {
 
   useEffect(() => {
     const query = searchParams.get('q');
-    if (query) {
-      setSearchQuery(query);
-    }
+    if (query) setSearchQuery(query);
   }, [searchParams]);
 
   const fetchContent = async () => {
     setIsLoading(true);
-    
     const [musicResult, sfxResult] = await Promise.all([
-      supabase
-        .from('music_tracks')
-        .select('*')
-        .eq('is_active', true)
-        .order('download_count', { ascending: false })
-        .limit(20),
-      supabase
-        .from('sound_effects')
-        .select('*')
-        .eq('is_active', true)
-        .order('download_count', { ascending: false })
-        .limit(20),
+      supabase.from('music_tracks').select('*').eq('is_active', true).order('download_count', { ascending: false }).limit(50),
+      supabase.from('sound_effects').select('*').eq('is_active', true).order('download_count', { ascending: false }).limit(50),
     ]);
-
     if (musicResult.data) setMusicTracks(musicResult.data as MusicTrack[]);
     if (sfxResult.data) setSoundEffects(sfxResult.data as SoundEffect[]);
-    
     setIsLoading(false);
   };
 
@@ -65,119 +50,60 @@ export default function ExplorePage() {
     if (!searchQuery.trim()) return items;
     const query = searchQuery.toLowerCase();
     return items.filter(
-      (item) =>
-        item.title.toLowerCase().includes(query) ||
-        item.tags.some((tag) => tag.toLowerCase().includes(query))
+      (item) => item.title.toLowerCase().includes(query) || item.tags.some((tag) => tag.toLowerCase().includes(query))
     );
   };
 
   const filteredMusic = filterBySearch(musicTracks);
   const filteredSfx = filterBySearch(soundEffects);
-  const allItems = [...filteredMusic.map((m) => ({ ...m, type: 'music' as const })), ...filteredSfx.map((s) => ({ ...s, type: 'sfx' as const }))];
 
   return (
     <MainLayout>
-      <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Explorar</h1>
-          <p className="text-muted-foreground">
-            Descubra músicas e efeitos sonoros para seus projetos
-          </p>
+      {/* Search hero */}
+      <section className="bg-gradient-to-b from-primary/8 to-transparent">
+        <div className="container py-12 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6">Explorar</h1>
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Buscar músicas, efeitos, tags..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-14 pl-12 text-lg bg-card border-border rounded-xl"
+              />
+            </div>
+          </form>
         </div>
+      </section>
 
-        {/* Search */}
-        <form onSubmit={handleSearch} className="mb-8">
-          <div className="relative max-w-2xl">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar músicas, efeitos, tags..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-12 pl-12 text-lg"
-            />
-          </div>
-        </form>
-
-        {/* Quick Links */}
-        {!searchQuery && (
-          <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Link
-              to="/music"
-              className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/50"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
-                <Music className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <p className="font-semibold">Músicas</p>
-                <p className="text-sm text-muted-foreground">Por emoção</p>
-              </div>
-            </Link>
-
-            <Link
-              to="/sfx"
-              className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent/50"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
-                <Waves className="h-5 w-5 text-accent-foreground" />
-              </div>
-              <div>
-                <p className="font-semibold">Efeitos Sonoros</p>
-                <p className="text-sm text-muted-foreground">Por estilo</p>
-              </div>
-            </Link>
-
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
-                <TrendingUp className="h-5 w-5 text-orange-500" />
-              </div>
-              <div>
-                <p className="font-semibold">Populares</p>
-                <p className="text-sm text-muted-foreground">Mais baixados</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
-                <Sparkles className="h-5 w-5 text-green-500" />
-              </div>
-              <div>
-                <p className="font-semibold">Novidades</p>
-                <p className="text-sm text-muted-foreground">Recém adicionados</p>
-              </div>
-            </div>
-          </div>
-        )}
-
+      <div className="container pb-12">
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
           <TabsList className="mb-6">
-            <TabsTrigger value="all" className="gap-2">
-              Todos
-              <span className="text-xs text-muted-foreground">({allItems.length})</span>
+            <TabsTrigger value="all">
+              Todos ({filteredMusic.length + filteredSfx.length})
             </TabsTrigger>
             <TabsTrigger value="music" className="gap-2">
               <Music className="h-4 w-4" />
-              Músicas
-              <span className="text-xs text-muted-foreground">({filteredMusic.length})</span>
+              Músicas ({filteredMusic.length})
             </TabsTrigger>
             <TabsTrigger value="sfx" className="gap-2">
               <Waves className="h-4 w-4" />
-              Efeitos
-              <span className="text-xs text-muted-foreground">({filteredSfx.length})</span>
+              Efeitos ({filteredSfx.length})
             </TabsTrigger>
           </TabsList>
 
           {isLoading ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
-                  <Skeleton className="aspect-square w-full" />
-                  <div className="p-4 space-y-2">
-                    <Skeleton className="h-5 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
+            <div className="space-y-2">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-3 px-4 py-3">
+                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <Skeleton className="h-10 w-10 rounded-md" />
+                  <div className="flex-1 space-y-1">
+                    <Skeleton className="h-4 w-48" />
+                    <Skeleton className="h-3 w-32" />
                   </div>
                 </div>
               ))}
@@ -185,36 +111,30 @@ export default function ExplorePage() {
           ) : (
             <>
               <TabsContent value="all">
-                {allItems.length === 0 ? (
-                  <EmptyState query={searchQuery} />
-                ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {allItems.map((item) => (
-                      <AudioCard key={item.id} item={item as any} type={item.type} />
-                    ))}
-                  </div>
-                )}
+                <TrackList
+                  music={filteredMusic}
+                  sfx={filteredSfx}
+                  query={searchQuery}
+                />
               </TabsContent>
-
               <TabsContent value="music">
                 {filteredMusic.length === 0 ? (
-                  <EmptyState query={searchQuery} type="music" />
+                  <EmptyState query={searchQuery} />
                 ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {filteredMusic.map((track) => (
-                      <AudioCard key={track.id} item={track} type="music" />
+                  <div className="space-y-1 bg-card rounded-xl border border-border p-2">
+                    {filteredMusic.map((t, i) => (
+                      <TrackRow key={t.id} item={t} type="music" index={i + 1} />
                     ))}
                   </div>
                 )}
               </TabsContent>
-
               <TabsContent value="sfx">
                 {filteredSfx.length === 0 ? (
-                  <EmptyState query={searchQuery} type="sfx" />
+                  <EmptyState query={searchQuery} />
                 ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {filteredSfx.map((effect) => (
-                      <AudioCard key={effect.id} item={effect} type="sfx" />
+                  <div className="space-y-1 bg-card rounded-xl border border-border p-2">
+                    {filteredSfx.map((s, i) => (
+                      <TrackRow key={s.id} item={s} type="sfx" index={i + 1} />
                     ))}
                   </div>
                 )}
@@ -227,18 +147,33 @@ export default function ExplorePage() {
   );
 }
 
-function EmptyState({ query, type }: { query?: string; type?: 'music' | 'sfx' }) {
-  const Icon = type === 'music' ? Music : type === 'sfx' ? Waves : Search;
-  
+function TrackList({ music, sfx, query }: { music: MusicTrack[]; sfx: SoundEffect[]; query: string }) {
+  const all = [
+    ...music.map((m) => ({ ...m, _type: 'music' as const })),
+    ...sfx.map((s) => ({ ...s, _type: 'sfx' as const })),
+  ];
+
+  if (all.length === 0) return <EmptyState query={query} />;
+
+  return (
+    <div className="space-y-1 bg-card rounded-xl border border-border p-2">
+      {all.map((item, i) => (
+        <TrackRow key={item.id} item={item as any} type={item._type} index={i + 1} />
+      ))}
+    </div>
+  );
+}
+
+function EmptyState({ query }: { query?: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <Icon className="h-12 w-12 text-muted-foreground mb-4" />
+      <Search className="h-12 w-12 text-muted-foreground mb-4" />
       <h3 className="text-lg font-semibold mb-2">
         {query ? 'Nenhum resultado encontrado' : 'Nenhum conteúdo disponível'}
       </h3>
       <p className="text-muted-foreground">
-        {query 
-          ? `Não encontramos resultados para "${query}". Tente buscar por outro termo.`
+        {query
+          ? `Não encontramos resultados para "${query}". Tente outro termo.`
           : 'O conteúdo será adicionado em breve.'}
       </p>
     </div>
