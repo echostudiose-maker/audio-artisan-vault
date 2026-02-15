@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -123,8 +123,9 @@
 
   h1, h2, h3, h4, h5, h6,
   label, span, p, a, button, li, th, td, div {
-    font-family: "Bebas Neue", sans-serif;
-    letter-spacing: 0.05em;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   input, textarea, select {
