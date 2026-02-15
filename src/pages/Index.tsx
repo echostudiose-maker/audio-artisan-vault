@@ -120,7 +120,7 @@ export default function Index() {
             animate="visible"
             custom={0}
           >
-            Deixe o seu vídeo livre de direitos autorais com qualquer estilo de música.
+            Deixe o seu vídeo livre de direitos autorais <span className="text-primary">com qualquer estilo de música.</span>
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
