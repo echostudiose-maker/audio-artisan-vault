@@ -386,7 +386,6 @@ export type Database = {
         | "cortes"
       sfx_style:
         | "whooshes"
-        | "transicoes"
         | "impacts"
         | "clicks"
         | "glitches"
@@ -396,6 +395,44 @@ export type Database = {
         | "explosoes"
         | "cinematograficos"
         | "tecnologicos"
+        | "agua"
+        | "ambience"
+        | "ambient_sounds"
+        | "animais"
+        | "atmosfera"
+        | "birds"
+        | "camera"
+        | "carros"
+        | "city_sounds"
+        | "comicos"
+        | "dinheiro"
+        | "earth_destruction"
+        | "fastcuts"
+        | "fogo"
+        | "foleys"
+        | "gear"
+        | "guns"
+        | "hits"
+        | "human"
+        | "intuicao"
+        | "metro"
+        | "moments"
+        | "movimento"
+        | "objects_of_desire"
+        | "organico"
+        | "radio_voice"
+        | "riser"
+        | "scratch"
+        | "slow_motion"
+        | "special"
+        | "speedramping"
+        | "swoosh"
+        | "torque"
+        | "transition_sounds"
+        | "trem"
+        | "whizz"
+        | "wind_lightning"
+        | "writing"
       subscription_status: "active" | "cancelled" | "expired" | "pending"
     }
     CompositeTypes: {
@@ -554,7 +591,6 @@ export const Constants = {
       ],
       sfx_style: [
         "whooshes",
-        "transicoes",
         "impacts",
         "clicks",
         "glitches",
@@ -564,6 +600,44 @@ export const Constants = {
         "explosoes",
         "cinematograficos",
         "tecnologicos",
+        "agua",
+        "ambience",
+        "ambient_sounds",
+        "animais",
+        "atmosfera",
+        "birds",
+        "camera",
+        "carros",
+        "city_sounds",
+        "comicos",
+        "dinheiro",
+        "earth_destruction",
+        "fastcuts",
+        "fogo",
+        "foleys",
+        "gear",
+        "guns",
+        "hits",
+        "human",
+        "intuicao",
+        "metro",
+        "moments",
+        "movimento",
+        "objects_of_desire",
+        "organico",
+        "radio_voice",
+        "riser",
+        "scratch",
+        "slow_motion",
+        "special",
+        "speedramping",
+        "swoosh",
+        "torque",
+        "transition_sounds",
+        "trem",
+        "whizz",
+        "wind_lightning",
+        "writing",
       ],
       subscription_status: ["active", "cancelled", "expired", "pending"],
     },

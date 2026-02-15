@@ -29,7 +29,6 @@ export type MusicEmotion =
 
 export type SfxStyle = 
   | 'whooshes' 
-  | 'transicoes' 
   | 'impacts' 
   | 'clicks' 
   | 'glitches'
@@ -38,7 +37,45 @@ export type SfxStyle =
   | 'ambiente' 
   | 'explosoes'
   | 'cinematograficos' 
-  | 'tecnologicos';
+  | 'tecnologicos'
+  | 'agua'
+  | 'ambience'
+  | 'ambient_sounds'
+  | 'animais'
+  | 'atmosfera'
+  | 'birds'
+  | 'camera'
+  | 'carros'
+  | 'city_sounds'
+  | 'comicos'
+  | 'dinheiro'
+  | 'earth_destruction'
+  | 'fastcuts'
+  | 'fogo'
+  | 'foleys'
+  | 'gear'
+  | 'guns'
+  | 'hits'
+  | 'human'
+  | 'intuicao'
+  | 'metro'
+  | 'moments'
+  | 'movimento'
+  | 'objects_of_desire'
+  | 'organico'
+  | 'radio_voice'
+  | 'riser'
+  | 'scratch'
+  | 'slow_motion'
+  | 'special'
+  | 'speedramping'
+  | 'swoosh'
+  | 'torque'
+  | 'transition_sounds'
+  | 'trem'
+  | 'whizz'
+  | 'wind_lightning'
+  | 'writing';
 
 export type SubscriptionStatus = 'active' | 'cancelled' | 'expired' | 'pending';
 
@@ -168,16 +205,53 @@ export const EMOTION_LABELS: Record<MusicEmotion, string> = {
 // Style labels for display
 export const STYLE_LABELS: Record<SfxStyle, string> = {
   whooshes: 'Whooshes',
-  transicoes: 'Transições',
   impacts: 'Impacts',
-  clicks: 'Clicks',
-  glitches: 'Glitches',
+  clicks: 'Click',
+  glitches: 'Glitch',
   interface: 'Interface',
   natureza: 'Natureza',
   ambiente: 'Ambiente',
   explosoes: 'Explosões',
   cinematograficos: 'Cinematográficos',
   tecnologicos: 'Tecnológicos',
+  agua: 'Água',
+  ambience: 'Ambience',
+  ambient_sounds: 'Ambient Sounds',
+  animais: 'Animais',
+  atmosfera: 'Atmosfera',
+  birds: 'Birds',
+  camera: 'Camera',
+  carros: 'Carros',
+  city_sounds: 'City Sounds',
+  comicos: 'Cômicos',
+  dinheiro: 'Dinheiro',
+  earth_destruction: 'Earth & Destruction',
+  fastcuts: 'FastCuts',
+  fogo: 'Fogo',
+  foleys: "Foley's",
+  gear: 'Gear',
+  guns: 'Guns',
+  hits: 'Hits',
+  human: 'Human',
+  intuicao: 'Intuição',
+  metro: 'Metrô',
+  moments: 'Moments',
+  movimento: 'Movimento',
+  objects_of_desire: 'Objetcs of Desire',
+  organico: 'Orgânico',
+  radio_voice: 'Radio Voice',
+  riser: 'Riser',
+  scratch: 'Scratch',
+  slow_motion: 'Slow Motion',
+  special: 'Special',
+  speedramping: 'Speedramping',
+  swoosh: 'Swoosh',
+  torque: 'Torque',
+  transition_sounds: 'Transition Sounds',
+  trem: 'Trem',
+  whizz: 'Whizz',
+  wind_lightning: 'Wind & Lightninig',
+  writing: 'Writing',
 };
 
 // Emotion icons/colors
@@ -211,7 +285,6 @@ export const EMOTION_COLORS: Record<MusicEmotion, string> = {
 
 export const STYLE_COLORS: Record<SfxStyle, string> = {
   whooshes: 'bg-cyan-500',
-  transicoes: 'bg-purple-500',
   impacts: 'bg-red-500',
   clicks: 'bg-green-500',
   glitches: 'bg-pink-500',
@@ -221,4 +294,42 @@ export const STYLE_COLORS: Record<SfxStyle, string> = {
   explosoes: 'bg-orange-500',
   cinematograficos: 'bg-indigo-500',
   tecnologicos: 'bg-violet-500',
+  agua: 'bg-sky-400',
+  ambience: 'bg-slate-500',
+  ambient_sounds: 'bg-slate-400',
+  animais: 'bg-amber-600',
+  atmosfera: 'bg-purple-400',
+  birds: 'bg-lime-500',
+  camera: 'bg-gray-500',
+  carros: 'bg-red-600',
+  city_sounds: 'bg-zinc-500',
+  comicos: 'bg-yellow-500',
+  dinheiro: 'bg-emerald-600',
+  earth_destruction: 'bg-stone-600',
+  fastcuts: 'bg-rose-500',
+  fogo: 'bg-orange-600',
+  foleys: 'bg-amber-500',
+  gear: 'bg-neutral-500',
+  guns: 'bg-red-700',
+  hits: 'bg-rose-600',
+  human: 'bg-pink-400',
+  intuicao: 'bg-violet-400',
+  metro: 'bg-blue-600',
+  moments: 'bg-fuchsia-400',
+  movimento: 'bg-cyan-600',
+  objects_of_desire: 'bg-fuchsia-500',
+  organico: 'bg-green-600',
+  radio_voice: 'bg-amber-400',
+  riser: 'bg-indigo-400',
+  scratch: 'bg-yellow-600',
+  slow_motion: 'bg-sky-600',
+  special: 'bg-purple-600',
+  speedramping: 'bg-rose-400',
+  swoosh: 'bg-teal-400',
+  torque: 'bg-zinc-600',
+  transition_sounds: 'bg-purple-500',
+  trem: 'bg-stone-500',
+  whizz: 'bg-cyan-400',
+  wind_lightning: 'bg-sky-500',
+  writing: 'bg-neutral-400',
 };
