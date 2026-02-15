@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { usePlayer } from '@/contexts/PlayerContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWaveform } from '@/hooks/useWaveform';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, Heart, Download, Plus, MoreHorizontal } from 'lucide-react';
@@ -8,23 +8,6 @@ import { cn } from '@/lib/utils';
 import type { MusicTrack, SoundEffect } from '@/types/database';
 import { EMOTION_LABELS, STYLE_LABELS } from '@/types/database';
 import { toast } from 'sonner';
-
-/** Generate a deterministic pseudo-random waveform from a string seed */
-function generateWaveform(seed: string, bars = 40): number[] {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0;
-  }
-  const result: number[] = [];
-  for (let i = 0; i < bars; i++) {
-    hash = ((hash * 16807) + 12345) & 0x7fffffff;
-    // Create a natural-looking waveform with some envelope shaping
-    const base = (hash % 100) / 100;
-    const envelope = Math.sin((i / bars) * Math.PI) * 0.5 + 0.5;
-    result.push(Math.max(0.08, base * envelope));
-  }
-  return result;
-}
 
 interface TrackRowProps {
   item: MusicTrack | SoundEffect;
@@ -40,8 +23,7 @@ export function TrackRow({ item, type, index }: TrackRowProps) {
   const isMusic = type === 'music';
   const track = item as MusicTrack;
   const sfx = item as SoundEffect;
-
-  const waveform = useMemo(() => generateWaveform(item.id, 40), [item.id]);
+  const waveform = useWaveform(item.file_url, 40);
 
   const categoryLabel = isMusic
     ? EMOTION_LABELS[track.emotion]
@@ -133,7 +115,7 @@ export function TrackRow({ item, type, index }: TrackRowProps) {
 
       {/* Waveform */}
       <div className="hidden sm:flex items-end gap-px h-8 w-32 shrink-0">
-        {waveform.map((v, i) => (
+        {waveform ? waveform.map((v, i) => (
           <div
             key={i}
             className={cn(
@@ -141,6 +123,12 @@ export function TrackRow({ item, type, index }: TrackRowProps) {
               isActive ? 'bg-primary/70' : 'bg-muted-foreground/30'
             )}
             style={{ height: `${v * 100}%` }}
+          />
+        )) : Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex-1 rounded-sm min-w-[2px] bg-muted-foreground/15"
+            style={{ height: '20%' }}
           />
         ))}
       </div>
