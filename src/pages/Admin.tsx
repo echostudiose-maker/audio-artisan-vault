@@ -10,8 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { EMOTION_LABELS, STYLE_LABELS, type MusicEmotion, type SfxStyle } from '@/types/database';
-import { Upload, Music, Waves, Loader2, CheckCircle, AlertCircle, X, FileAudio } from 'lucide-react';
+import { Upload, Music, Waves, Loader2, CheckCircle, AlertCircle, X, FileAudio, ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import { StyleCoversManager } from '@/components/admin/StyleCoversManager';
 
 interface FileUploadItem {
   file: File;
@@ -41,6 +42,9 @@ export default function Admin() {
             <TabsTrigger value="sfx" className="gap-2">
               <Waves className="h-4 w-4" /> Efeitos Sonoros
             </TabsTrigger>
+            <TabsTrigger value="covers" className="gap-2">
+              <ImageIcon className="h-4 w-4" /> Capas SFX
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="music">
@@ -48,6 +52,9 @@ export default function Admin() {
           </TabsContent>
           <TabsContent value="sfx">
             <BatchSfxUpload />
+          </TabsContent>
+          <TabsContent value="covers">
+            <StyleCoversManager />
           </TabsContent>
         </Tabs>
       </div>
