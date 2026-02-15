@@ -86,7 +86,8 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
         <div className="container relative py-20 md:py-28 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-            Deixe o seu vídeo livre de direitos autorais{' '}
+            Deixe o seu vídeo livre de direitos autorais
+            <br />
             <span className="text-primary">com músicas atuais.</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
