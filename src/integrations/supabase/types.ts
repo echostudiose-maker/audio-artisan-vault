@@ -92,6 +92,30 @@ export type Database = {
           },
         ]
       }
+      music_emotion_covers: {
+        Row: {
+          cover_url: string
+          created_at: string
+          emotion: Database["public"]["Enums"]["music_emotion"]
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          cover_url: string
+          created_at?: string
+          emotion: Database["public"]["Enums"]["music_emotion"]
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          cover_url?: string
+          created_at?: string
+          emotion?: Database["public"]["Enums"]["music_emotion"]
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       music_tracks: {
         Row: {
           cover_image_url: string | null
