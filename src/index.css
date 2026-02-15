@@ -117,9 +117,15 @@
     @apply bg-background text-foreground antialiased;
   }
 
-  h1, h2, h3 {
+  h1, h2, h3, h4, h5, h6,
+  label, span, p, a, button, li, th, td, div {
     font-family: "Bebas Neue", sans-serif;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
+  }
+
+  input, textarea, select {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: normal;
   }
 
   /* Custom scrollbar */
