@@ -1,0 +1,11 @@
+-- Add new emotion values to the music_emotion enum
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'animada';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'confianca';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'esperanca';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'felicidade';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'inveja';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'mix';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'superacao';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'vibes';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'bonus';
+ALTER TYPE public.music_emotion ADD VALUE IF NOT EXISTS 'cortes';

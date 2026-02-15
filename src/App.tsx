@@ -17,6 +17,7 @@ import Downloads from "./pages/Downloads";
 import Playlists from "./pages/Playlists";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
                 <Route path="/downloads" element={<Downloads />} />
                 <Route path="/playlists" element={<Playlists />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <WhatsAppButton />

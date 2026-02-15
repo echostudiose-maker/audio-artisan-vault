@@ -374,6 +374,16 @@ export type Database = {
         | "moderno"
         | "minimalista"
         | "corporativo"
+        | "animada"
+        | "confianca"
+        | "esperanca"
+        | "felicidade"
+        | "inveja"
+        | "mix"
+        | "superacao"
+        | "vibes"
+        | "bonus"
+        | "cortes"
       sfx_style:
         | "whooshes"
         | "transicoes"
@@ -531,6 +541,16 @@ export const Constants = {
         "moderno",
         "minimalista",
         "corporativo",
+        "animada",
+        "confianca",
+        "esperanca",
+        "felicidade",
+        "inveja",
+        "mix",
+        "superacao",
+        "vibes",
+        "bonus",
+        "cortes",
       ],
       sfx_style: [
         "whooshes",
