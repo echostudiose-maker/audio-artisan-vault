@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { AudioCard } from '@/components/audio/AudioCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -8,6 +9,15 @@ import { Heart, Music, Waves } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, SoundEffect, Favorite } from '@/types/database';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
 
 export default function FavoritesPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -100,8 +110,7 @@ export default function FavoritesPage() {
   return (
     <MainLayout>
       <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/10">
               <Heart className="h-6 w-6 text-pink-500" />
@@ -111,9 +120,9 @@ export default function FavoritesPage() {
           <p className="text-muted-foreground">
             Seus arquivos de áudio favoritos em um só lugar
           </p>
-        </div>
+        </motion.div>
 
-        {/* Tabs */}
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.15 }}>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
           <TabsList className="mb-6">
             <TabsTrigger value="all" className="gap-2">
@@ -184,6 +193,7 @@ export default function FavoritesPage() {
             </>
           )}
         </Tabs>
+        </motion.div>
       </div>
     </MainLayout>
   );

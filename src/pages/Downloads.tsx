@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { AudioCard } from '@/components/audio/AudioCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,6 +10,19 @@ import { Download, Music, Waves, Crown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, SoundEffect, Download as DownloadType } from '@/types/database';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
 export default function DownloadsPage() {
   const { user, isLoading: authLoading, isSubscribed } = useAuth();
@@ -125,8 +139,7 @@ export default function DownloadsPage() {
   return (
     <MainLayout>
       <div className="container py-8">
-        {/* Header */}
-        <div className="mb-8">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
               <Download className="h-6 w-6 text-green-500" />
@@ -136,25 +149,24 @@ export default function DownloadsPage() {
           <p className="text-muted-foreground">
             Histórico de todos os arquivos que você baixou
           </p>
-        </div>
+        </motion.div>
 
-        {/* Stats */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-border bg-card p-4">
+        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mb-8 grid gap-4 sm:grid-cols-3">
+          <motion.div variants={fadeUp} className="rounded-xl border border-border bg-card p-4">
             <p className="text-sm text-muted-foreground">Total de Downloads</p>
             <p className="text-2xl font-bold">{downloads.length}</p>
-          </div>
-          <div className="rounded-xl border border-border bg-card p-4">
+          </motion.div>
+          <motion.div variants={fadeUp} className="rounded-xl border border-border bg-card p-4">
             <p className="text-sm text-muted-foreground">Músicas</p>
             <p className="text-2xl font-bold">{musicTracks.length}</p>
-          </div>
-          <div className="rounded-xl border border-border bg-card p-4">
+          </motion.div>
+          <motion.div variants={fadeUp} className="rounded-xl border border-border bg-card p-4">
             <p className="text-sm text-muted-foreground">Efeitos</p>
             <p className="text-2xl font-bold">{soundEffects.length}</p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Tabs */}
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.3 }}>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
           <TabsList className="mb-6">
             <TabsTrigger value="all" className="gap-2">
@@ -225,6 +237,7 @@ export default function DownloadsPage() {
             </>
           )}
         </Tabs>
+        </motion.div>
       </div>
     </MainLayout>
   );
