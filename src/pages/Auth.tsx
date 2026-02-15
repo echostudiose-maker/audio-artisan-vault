@@ -11,8 +11,15 @@ import { Music, ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-const emailSchema = z.string().email('Email inválido');
-const passwordSchema = z.string().min(6, 'Senha deve ter pelo menos 6 caracteres');
+const emailSchema = z.string().trim().email('Email inválido').max(255, 'Email muito longo');
+const passwordSchema = z
+  .string()
+  .min(8, 'Senha deve ter pelo menos 8 caracteres')
+  .max(72, 'Senha deve ter no máximo 72 caracteres')
+  .regex(/[a-z]/, 'Senha deve conter pelo menos uma letra minúscula')
+  .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
+  .regex(/[0-9]/, 'Senha deve conter pelo menos um número');
+const nameSchema = z.string().trim().min(1, 'Nome é obrigatório').max(100, 'Nome muito longo');
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
@@ -37,20 +44,21 @@ export default function Auth() {
   const validateForm = () => {
     const newErrors: typeof errors = {};
     
-    try {
-      emailSchema.parse(email);
-    } catch {
-      newErrors.email = 'Email inválido';
+    const emailResult = emailSchema.safeParse(email);
+    if (!emailResult.success) {
+      newErrors.email = emailResult.error.errors[0].message;
     }
 
-    try {
-      passwordSchema.parse(password);
-    } catch {
-      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+    const passwordResult = passwordSchema.safeParse(password);
+    if (!passwordResult.success) {
+      newErrors.password = passwordResult.error.errors[0].message;
     }
 
-    if (mode === 'signup' && !fullName.trim()) {
-      newErrors.fullName = 'Nome é obrigatório';
+    if (mode === 'signup') {
+      const nameResult = nameSchema.safeParse(fullName);
+      if (!nameResult.success) {
+        newErrors.fullName = nameResult.error.errors[0].message;
+      }
     }
 
     setErrors(newErrors);
@@ -180,6 +188,8 @@ export default function Auth() {
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       disabled={isSubmitting}
+                      maxLength={100}
+                      autoComplete="name"
                     />
                     {errors.fullName && (
                       <p className="text-sm text-destructive">{errors.fullName}</p>
@@ -196,6 +206,8 @@ export default function Auth() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isSubmitting}
+                    maxLength={255}
+                    autoComplete="email"
                   />
                   {errors.email && (
                     <p className="text-sm text-destructive">{errors.email}</p>
@@ -211,6 +223,8 @@ export default function Auth() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={isSubmitting}
+                    maxLength={72}
+                    autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                   />
                   {errors.password && (
                     <p className="text-sm text-destructive">{errors.password}</p>
