@@ -114,7 +114,7 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
         <div className="container relative py-20 md:py-28 text-center">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-4 tracking-tight"
+            className="text-4xl md:text-6xl font-bold mb-4 tracking-tight uppercase"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
