@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { TrackRow } from '@/components/audio/TrackRow';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Search, Music, Waves } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, SoundEffect } from '@/types/database';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
 
 export default function ExplorePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,11 +69,10 @@ export default function ExplorePage() {
 
   return (
     <MainLayout>
-      {/* Search hero */}
       <section className="bg-gradient-to-b from-primary/8 to-transparent">
         <div className="container py-12 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6">Explorar</h1>
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" className="text-3xl md:text-4xl font-bold mb-6">Explorar</motion.h1>
+          <motion.form variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.1 }} onSubmit={handleSearch} className="max-w-2xl mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -74,12 +83,12 @@ export default function ExplorePage() {
                 className="h-14 pl-12 text-lg bg-card border-border rounded-xl"
               />
             </div>
-          </form>
+          </motion.form>
         </div>
       </section>
 
       <div className="container pb-12">
-        {/* Tabs */}
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.2 }}>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
           <TabsList className="mb-6">
             <TabsTrigger value="all">
@@ -142,6 +151,7 @@ export default function ExplorePage() {
             </>
           )}
         </Tabs>
+        </motion.div>
       </div>
     </MainLayout>
   );
