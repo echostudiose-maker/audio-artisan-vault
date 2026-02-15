@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { CategoryCard } from '@/components/audio/CategoryCard';
 import { TrackRow } from '@/components/audio/TrackRow';
@@ -19,6 +20,33 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import type { MusicTrack, SoundEffect, MusicEmotion, SfxStyle } from '@/types/database';
 import { EMOTION_LABELS, EMOTION_COLORS, STYLE_LABELS, STYLE_COLORS } from '@/types/database';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.1, ease: 'easeOut' as const },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i: number) => ({
+    opacity: 1,
+    transition: { duration: 0.5, delay: i * 0.1 },
+  }),
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
 
 const benefits = [
   {
@@ -85,35 +113,66 @@ export default function Index() {
       <section className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
         <div className="container relative py-20 md:py-28 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold mb-4 tracking-tight"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+          >
             Deixe o seu vídeo livre de direitos autorais
             <br />
             <span className="text-primary">com músicas atuais.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={1}
+          >
             Acesse agora a maior coleção de músicas e efeitos sonoros autênticos e emocionalmente impactantes para qualquer ocasião.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap items-center justify-center gap-3 mb-8"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.span variants={fadeUp} custom={2} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
               <Music className="h-4 w-4" /> + de 1000 músicas
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+            </motion.span>
+            <motion.span variants={fadeUp} custom={3} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
               <Waves className="h-4 w-4" /> + de 5000 efeitos sonoros
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+            </motion.span>
+            <motion.span variants={fadeUp} custom={4} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
               <Zap className="h-4 w-4" /> Atualizações todo mês
-            </span>
-          </div>
-          <Link to="/auth?mode=signup">
-            <Button size="lg" className="gradient-primary hover:opacity-90 text-base px-8">
-              Criar conta grátis
-            </Button>
-          </Link>
+            </motion.span>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={5}
+          >
+            <Link to="/auth?mode=signup">
+              <Button size="lg" className="gradient-primary hover:opacity-90 text-base px-8">
+                Criar conta grátis
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* Search Bar - full width like Epidemic Sound */}
-      <section className="bg-card/60 border-y border-border">
+      {/* Search Bar */}
+      <motion.section
+        className="bg-card/60 border-y border-border"
+        variants={fadeIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        custom={0}
+      >
         <div className="container py-6">
           <form onSubmit={handleSearch}>
             <div className="relative max-w-3xl mx-auto">
@@ -128,38 +187,59 @@ export default function Index() {
             </div>
           </form>
         </div>
-      </section>
+      </motion.section>
 
       <div className="container py-10">
-        {/* Emoções (Moods) - horizontal cards */}
-        <HorizontalScrollSection
-          title="Emoções"
-          seeAllLabel="Ver todas as emoções"
-          allItems={emotionEntries.map(([key, label]) => (
-            <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
-          ))}
+        {/* Emoções */}
+        <motion.div
+          variants={slideInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {emotionEntries.map(([key, label]) => (
-            <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
-          ))}
-        </HorizontalScrollSection>
+          <HorizontalScrollSection
+            title="Emoções"
+            seeAllLabel="Ver todas as emoções"
+            allItems={emotionEntries.map(([key, label]) => (
+              <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
+            ))}
+          >
+            {emotionEntries.map(([key, label]) => (
+              <CategoryCard key={key} label={label} href={`/music?emotion=${key}`} color={EMOTION_COLORS[key]} />
+            ))}
+          </HorizontalScrollSection>
+        </motion.div>
 
-        {/* Efeitos Sonoros (Styles) - horizontal cards */}
-        <HorizontalScrollSection
-          title="Efeitos Sonoros"
-          seeAllLabel="Ver todos os estilos"
-          allItems={styleEntries.map(([key, label]) => (
-            <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
-          ))}
+        {/* Efeitos Sonoros */}
+        <motion.div
+          variants={slideInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {styleEntries.map(([key, label]) => (
-            <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
-          ))}
-        </HorizontalScrollSection>
+          <HorizontalScrollSection
+            title="Efeitos Sonoros"
+            seeAllLabel="Ver todos os estilos"
+            allItems={styleEntries.map(([key, label]) => (
+              <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
+            ))}
+          >
+            {styleEntries.map(([key, label]) => (
+              <CategoryCard key={key} label={label} href={`/sfx?style=${key}`} color={STYLE_COLORS[key]} />
+            ))}
+          </HorizontalScrollSection>
+        </motion.div>
 
-        {/* Recentes - track list */}
+        {/* Recentes */}
         {recentTracks.length > 0 && (
-          <section className="mb-10">
+          <motion.section
+            className="mb-10"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0}
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Adicionados recentemente</h2>
               <Link to="/music" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -171,12 +251,19 @@ export default function Index() {
                 <TrackRow key={track.id} item={track} type="music" index={i + 1} />
               ))}
             </div>
-          </section>
+          </motion.section>
         )}
 
-        {/* Populares - track list */}
+        {/* Populares */}
         {popularTracks.length > 0 && (
-          <section className="mb-10">
+          <motion.section
+            className="mb-10"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0}
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Mais populares</h2>
               <Link to="/music" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -188,18 +275,33 @@ export default function Index() {
                 <TrackRow key={track.id} item={track} type="music" index={i + 1} />
               ))}
             </div>
-          </section>
+          </motion.section>
         )}
 
-        {/* Benefits Section */}
-        <section className="mb-10">
+        {/* Benefits */}
+        <motion.section
+          className="mb-10"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          custom={0}
+        >
           <h2 className="text-xl font-bold text-center mb-8">Tudo que você precisa</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((benefit) => {
+          <motion.div
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            {benefits.map((benefit, i) => {
               const Icon = benefit.icon;
               return (
-                <div
+                <motion.div
                   key={benefit.title}
+                  variants={fadeUp}
+                  custom={i}
                   className="rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary/50"
                 >
                   <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
@@ -207,14 +309,21 @@ export default function Index() {
                   </div>
                   <h3 className="font-semibold mb-1">{benefit.title}</h3>
                   <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* CTA Section */}
-        <section className="mb-10">
+        <motion.section
+          className="mb-10"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          custom={0}
+        >
           <div className="relative overflow-hidden rounded-2xl gradient-primary p-8 md:p-12">
             <div className="relative z-10 mx-auto max-w-2xl text-center text-white">
               <Crown className="mx-auto mb-4 h-10 w-10" />
@@ -238,7 +347,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
       </div>
     </MainLayout>
   );
