@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { usePlayer } from '@/contexts/PlayerContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWaveform } from '@/hooks/useWaveform';
@@ -17,10 +18,11 @@ interface TrackRowProps {
 }
 
 export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
-  const { play, pause, isPlaying, isCurrentTrack } = usePlayer();
+  const { play, pause, isPlaying, isCurrentTrack, currentTime, duration } = usePlayer();
   const { user, isSubscribed } = useAuth();
 
   const isActive = isCurrentTrack(item.id);
+  const progress = isActive && duration > 0 ? currentTime / duration : 0;
   const isMusic = type === 'music';
   const track = item as MusicTrack;
   const sfx = item as SoundEffect;
@@ -116,16 +118,20 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
 
       {/* Waveform */}
       <div className="hidden sm:flex items-end gap-px h-8 w-32 shrink-0">
-        {waveform ? waveform.map((v, i) => (
-          <div
-            key={i}
-            className={cn(
-              'flex-1 rounded-sm min-w-[2px] transition-colors',
-              isActive ? 'bg-primary/70' : 'bg-muted-foreground/30'
-            )}
-            style={{ height: `${v * 100}%` }}
-          />
-        )) : Array.from({ length: 40 }).map((_, i) => (
+        {waveform ? waveform.map((v, i) => {
+          const barProgress = i / waveform.length;
+          const isPlayed = isActive && barProgress < progress;
+          return (
+            <div
+              key={i}
+              className={cn(
+                'flex-1 rounded-sm min-w-[2px] transition-colors',
+                isPlayed ? 'bg-primary' : isActive ? 'bg-primary/25' : 'bg-muted-foreground/30'
+              )}
+              style={{ height: `${v * 100}%` }}
+            />
+          );
+        }) : Array.from({ length: 40 }).map((_, i) => (
           <div
             key={i}
             className="flex-1 rounded-sm min-w-[2px] bg-muted-foreground/15"
