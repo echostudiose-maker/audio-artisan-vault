@@ -115,6 +115,10 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    background-image:
+      linear-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
   }
 
   h1, h2, h3, h4, h5, h6,
