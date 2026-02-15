@@ -52,7 +52,7 @@ export default function Index() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5">
               <Crown className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Echo Sound</span>
+              <span className="text-sm font-medium text-primary">EchoMusic</span>
             </div>
             
             <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
