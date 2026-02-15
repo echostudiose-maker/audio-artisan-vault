@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { TrackRow } from '@/components/audio/TrackRow';
 import { CategoryCard } from '@/components/audio/CategoryCard';
@@ -15,9 +15,19 @@ import { STYLE_LABELS, STYLE_COLORS } from '@/types/database';
 export default function SoundEffectsPage() {
   const [effects, setEffects] = useState<SoundEffect[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedStyle, setSelectedStyle] = useState<SfxStyle | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const selectedStyle = (searchParams.get('style') as SfxStyle) || null;
+
+  const setSelectedStyle = (style: SfxStyle | null) => {
+    if (style) {
+      navigate(`/sfx?style=${style}`);
+    } else {
+      navigate('/sfx');
+    }
+  };
 
   useEffect(() => {
     fetchEffects();
