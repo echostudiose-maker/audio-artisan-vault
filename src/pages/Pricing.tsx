@@ -1,10 +1,20 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { Check, Crown, Zap, Shield, Download, Headphones, Calendar, Video } from 'lucide-react';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+};
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
 const plans = [
   {
@@ -78,7 +88,7 @@ export default function PricingPage() {
     <MainLayout>
       <div className="container py-12">
         {/* Header */}
-        <div className="mx-auto max-w-3xl text-center mb-12">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center mb-12">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5">
             <Crown className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium text-primary">Planos e Preços</span>
@@ -89,14 +99,14 @@ export default function PricingPage() {
           <p className="text-lg text-muted-foreground">
             Acesse nossa biblioteca completa de músicas e efeitos sonoros com licença comercial incluída.
           </p>
-        </div>
+        </motion.div>
 
         {/* Plans Grid */}
-        <div className="mx-auto max-w-4xl grid gap-8 md:grid-cols-2 mb-16">
+        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mx-auto max-w-4xl grid gap-8 md:grid-cols-2 mb-16">
           {plans.map((plan) => (
+            <motion.div key={plan.name} variants={fadeUp}>
             <Card
-              key={plan.name}
-              className={`relative flex flex-col ${
+              className={`relative flex flex-col h-full ${
                 plan.popular ? 'border-primary shadow-lg shadow-primary/10' : ''
               }`}
             >
@@ -150,11 +160,12 @@ export default function PricingPage() {
                 </Link>
               </CardContent>
             </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Benefits */}
-        <div className="mx-auto max-w-4xl">
+        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="mx-auto max-w-4xl">
           <h2 className="text-2xl font-bold text-center mb-8">
             Benefícios exclusivos para assinantes
           </h2>
@@ -162,26 +173,26 @@ export default function PricingPage() {
             {benefits.map((benefit) => {
               const Icon = benefit.icon;
               return (
-                <div key={benefit.title} className="text-center">
+                <motion.div key={benefit.title} variants={fadeUp} className="text-center">
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold mb-1">{benefit.title}</h3>
                   <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
         {/* FAQ Teaser */}
-        <div className="mx-auto max-w-2xl text-center mt-16 p-8 rounded-2xl bg-card border border-border">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mx-auto max-w-2xl text-center mt-16 p-8 rounded-2xl bg-card border border-border">
           <h3 className="text-xl font-semibold mb-2">Tem dúvidas?</h3>
           <p className="text-muted-foreground mb-4">
             Entre em contato conosco ou explore nossa FAQ para mais informações sobre licenciamento e uso comercial.
           </p>
           <Button variant="outline">Ver FAQ</Button>
-        </div>
+        </motion.div>
       </div>
     </MainLayout>
   );

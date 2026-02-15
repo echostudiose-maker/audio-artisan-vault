@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -32,9 +33,12 @@ export default function Admin() {
   return (
     <MainLayout>
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-2">Painel Admin</h1>
-        <p className="text-muted-foreground mb-8">Faça upload de músicas e efeitos sonoros em lote.</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <h1 className="text-3xl font-bold mb-2">Painel Admin</h1>
+          <p className="text-muted-foreground mb-8">Faça upload de músicas e efeitos sonoros em lote.</p>
+        </motion.div>
 
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.5 }}>
         <Tabs defaultValue="music" className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="music" className="gap-2">
@@ -64,6 +68,7 @@ export default function Admin() {
             <EmotionCoversManager />
           </TabsContent>
         </Tabs>
+        </motion.div>
       </div>
     </MainLayout>
   );
