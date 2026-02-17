@@ -46,23 +46,32 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/80 backdrop-blur-xl px-6">
+    <header className="sticky top-0 z-30 flex h-14 md:h-16 items-center justify-between border-b border-border bg-background/80 backdrop-blur-xl px-3 md:px-6">
+      {/* Logo on mobile */}
+      <div className="flex md:hidden items-center gap-2 shrink-0">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary">
+            <Search className="h-4 w-4 text-white" />
+          </div>
+        </Link>
+      </div>
+
       {/* Search */}
-      <form onSubmit={handleSearch} className="flex-1 max-w-xl">
+      <form onSubmit={handleSearch} className="flex-1 max-w-xl mx-2 md:mx-0">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Buscar músicas, efeitos sonoros, tags..."
+            placeholder="Buscar músicas, efeitos sonoros..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-secondary border-0 focus-visible:ring-primary"
+            className="pl-10 h-9 md:h-10 bg-secondary border-0 focus-visible:ring-primary text-sm"
           />
         </div>
       </form>
 
       {/* Actions */}
-      <div className="flex items-center gap-4 ml-6">
+      <div className="flex items-center gap-2 md:gap-4 ml-2 md:ml-6">
         {/* Theme Toggle */}
         <Button
           variant="ghost"
@@ -131,12 +140,12 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Link to="/auth">
-              <Button variant="ghost">Entrar</Button>
+              <Button variant="ghost" size="sm" className="text-xs md:text-sm">Entrar</Button>
             </Link>
-            <Link to="/auth?mode=signup">
-              <Button className="gradient-primary">Cadastrar</Button>
+            <Link to="/auth?mode=signup" className="hidden sm:block">
+              <Button className="gradient-primary" size="sm">Cadastrar</Button>
             </Link>
           </div>
         )}

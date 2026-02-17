@@ -65,13 +65,13 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
   return (
     <div
       className={cn(
-        'group flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-secondary/50 cursor-pointer',
+        'group flex items-center gap-2 md:gap-3 px-2 md:px-4 py-2.5 md:py-3 rounded-lg transition-colors hover:bg-secondary/50 cursor-pointer',
         isActive && 'bg-primary/10 hover:bg-primary/15'
       )}
       onClick={handlePlayPause}
     >
       {/* Play button / Index */}
-      <div className="w-10 flex items-center justify-center shrink-0">
+      <div className="w-8 md:w-10 flex items-center justify-center shrink-0">
         <button
           className={cn(
             'flex h-8 w-8 items-center justify-center rounded-full transition-all',
@@ -93,7 +93,7 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
       </div>
 
       {/* Cover */}
-      <div className="h-10 w-10 rounded-md overflow-hidden bg-secondary shrink-0">
+      <div className="h-9 w-9 md:h-10 md:w-10 rounded-md overflow-hidden bg-secondary shrink-0">
         {coverImage ? (
           <img src={coverImage} alt={item.title} className="h-full w-full object-cover" />
         ) : (
@@ -141,12 +141,12 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
       </div>
 
       {/* Duration */}
-      <span className="text-sm text-muted-foreground shrink-0 w-12 text-right">
+      <span className="text-xs md:text-sm text-muted-foreground shrink-0 w-10 md:w-12 text-right">
         {formatDuration(item.duration_seconds)}
       </span>
 
-      {/* Actions */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" onClick={(e) => e.stopPropagation()}>
+      {/* Actions - hidden on mobile to save space */}
+      <div className="hidden sm:flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" onClick={(e) => e.stopPropagation()}>
         {user && (
           <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
             <Heart className="h-4 w-4" />
