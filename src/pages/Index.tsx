@@ -120,19 +120,19 @@ export default function Index() {
           src="/videos/hero-bg.mp4"
         />
         <div className="absolute inset-0 bg-background/60" />
-        <div className="container relative py-20 md:py-28 text-center">
+        <div className="container relative py-12 md:py-28 text-center px-4">
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-tight"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-tight"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
           >
-            Deixe o seu vídeo livre de direitos autorais<br />
-            <span className="text-primary">com qualquer estilo de música.</span>
+            Deixe o seu vídeo livre de direitos autorais<br className="hidden sm:block" />
+            <span className="text-primary"> com qualquer estilo de música.</span>
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+            className="text-sm sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 md:mb-8 px-2"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
