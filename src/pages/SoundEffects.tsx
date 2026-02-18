@@ -96,7 +96,7 @@ export default function SoundEffectsPage() {
     <MainLayout>
       <section className="relative bg-gradient-to-b from-primary/8 to-transparent">
         <div className="container py-16 text-center">
-          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" className="text-4xl md:text-5xl font-bold mb-4">Efeitos Sonoros</motion.h1>
+          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" className="text-4xl md:text-5xl font-bold mb-4">Saber usar Efeitos Sonoros <span className="text-primary">é uma arte</span></motion.h1>
           <motion.p variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }} className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Explore nossa coleção de efeitos sonoros organizados por estilo para dar vida aos seus projetos.
           </motion.p>
