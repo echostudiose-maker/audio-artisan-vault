@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Check, Crown, Zap, Shield, Download, Headphones, Calendar, Video } from 'lucide-react';
+import { Check, Crown, Shield, Download, Calendar, Video, Sparkles } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -21,6 +21,8 @@ const plans = [
     name: 'Premium Mensal',
     price: 'R$ 49',
     period: '/mês',
+    license: 'Licença Pessoal',
+    licenseDesc: 'Abrange todo o uso pessoal de música e efeitos sonoros.',
     features: [
       'Músicas',
       'Efeitos Sonoros',
@@ -29,7 +31,6 @@ const plans = [
       'Favoritos e playlists',
       'Histórico de downloads',
     ],
-    limitations: [],
     cta: 'Assinar Mensal',
     href: '/checkout?plan=monthly',
     popular: true,
@@ -39,6 +40,8 @@ const plans = [
     price: 'R$ 399',
     period: '/ano',
     originalPrice: 'R$ 588',
+    license: 'Licença Comercial',
+    licenseDesc: 'Abrange todo o uso pessoal e comercial de música e efeitos sonoros.',
     features: [
       'Músicas',
       'Efeitos Sonoros',
@@ -51,7 +54,6 @@ const plans = [
       'Histórico de downloads',
       'Suporte prioritário',
     ],
-    limitations: [],
     cta: 'Assinar Anual',
     href: '/checkout?plan=yearly',
     popular: false,
@@ -105,34 +107,64 @@ export default function PricingPage() {
         {/* Plans Grid */}
         <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mx-auto max-w-5xl grid gap-8 md:grid-cols-2 mb-20">
           {plans.map((plan) => (
-            <motion.div key={plan.name} variants={fadeUp}>
-              <Card
-                className={`relative flex flex-col h-full rounded-2xl p-0 overflow-visible ${
-                  plan.popular ? 'border-primary' : 'border-border'
-                }`}
-              >
+            <motion.div key={plan.name} variants={fadeUp} className="flex flex-col">
+              {/* Outer wrapper */}
+              <div className={`relative rounded-2xl border p-1 flex flex-col h-full ${
+                plan.badge ? 'border-primary/40 shadow-[0_0_30px_-5px_hsl(var(--primary)/0.15)]' : 'border-border'
+              }`}>
                 {/* Badge */}
                 {plan.popular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="gradient-primary text-white border-0 px-4 py-1 text-xs">
+                    <Badge className="gradient-primary border-0 px-4 py-1 text-xs">
                       Mais Popular
                     </Badge>
                   </div>
                 )}
                 {plan.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                    <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs">
+                    <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" />
                       {plan.badge}
                     </Badge>
                   </div>
                 )}
 
-                {/* Card inner */}
-                <div className="flex flex-col h-full p-8 pt-10">
-                  {/* Plan name */}
+                {/* Inner dark card: name + price + CTA */}
+                <div className="rounded-xl bg-secondary/50 p-8 pt-10">
                   <h3 className="text-2xl font-bold mb-6">{plan.name}</h3>
 
-                  {/* Features */}
+                  <div className="mb-8 flex items-baseline gap-2">
+                    {plan.originalPrice && (
+                      <span className="text-base text-muted-foreground line-through">
+                        {plan.originalPrice}
+                      </span>
+                    )}
+                    <span className="text-5xl md:text-6xl font-bold tracking-tight">{plan.price}</span>
+                    <span className="text-base text-muted-foreground">{plan.period}</span>
+                  </div>
+
+                  <Link to={user ? plan.href : '/auth?mode=signup'} className="block">
+                    <Button
+                      className={`w-full h-14 text-base rounded-xl ${plan.popular ? 'gradient-primary hover:opacity-90' : ''}`}
+                      variant={plan.popular ? 'default' : 'outline'}
+                      size="lg"
+                      disabled={isSubscribed}
+                    >
+                      {isSubscribed ? 'Plano Atual' : plan.cta}
+                    </Button>
+                  </Link>
+                </div>
+
+                {/* License + Features below */}
+                <div className="p-8 flex flex-col flex-1">
+                  <div className="mb-6 pb-6 border-b border-border">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Shield className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-semibold">{plan.license}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{plan.licenseDesc}</p>
+                  </div>
+
                   <ul className="space-y-4 flex-1">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-3">
@@ -142,7 +174,7 @@ export default function PricingPage() {
                     ))}
                   </ul>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </motion.div>
