@@ -86,14 +86,14 @@ export default function PricingPage() {
 
   return (
     <MainLayout>
-      <div className="container py-12">
+      <div className="container py-12 md:py-20">
         {/* Header */}
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center mb-12">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center mb-14">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5">
             <Crown className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium text-primary">Planos e Preços</span>
           </div>
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Escolha o plano ideal para você
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -102,64 +102,81 @@ export default function PricingPage() {
         </motion.div>
 
         {/* Plans Grid */}
-        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mx-auto max-w-4xl grid gap-8 md:grid-cols-2 mb-16">
+        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mx-auto max-w-5xl grid gap-8 md:grid-cols-2 mb-20">
           {plans.map((plan) => (
             <motion.div key={plan.name} variants={fadeUp}>
-            <Card
-              className={`relative flex flex-col h-full ${
-                plan.popular ? 'border-primary shadow-lg shadow-primary/10' : ''
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="gradient-primary text-white border-0">
-                    Mais Popular
-                  </Badge>
-                </div>
-              )}
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20">
-                    {plan.badge}
-                  </Badge>
-                </div>
-              )}
-              
-              <CardHeader>
-                <CardTitle className="text-xl">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                <div className="mt-4">
-                  {plan.originalPrice && (
-                    <span className="text-sm text-muted-foreground line-through mr-2">
-                      {plan.originalPrice}
-                    </span>
-                  )}
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.period}</span>
-                </div>
-              </CardHeader>
+              <Card
+                className={`relative flex flex-col h-full rounded-2xl p-0 overflow-visible ${
+                  plan.popular ? 'border-primary' : 'border-border'
+                }`}
+              >
+                {/* Badge */}
+                {plan.popular && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="gradient-primary text-white border-0 px-4 py-1 text-xs">
+                      Mais Popular
+                    </Badge>
+                  </div>
+                )}
+                {plan.badge && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                    <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs">
+                      {plan.badge}
+                    </Badge>
+                  </div>
+                )}
 
-              <CardContent className="flex-1 flex flex-col">
-                <ul className="space-y-3 mb-6 flex-1">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Card inner */}
+                <div className="flex flex-col h-full p-8 pt-10">
+                  {/* Plan name & description */}
+                  <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
 
-                <Link to={user ? plan.href : '/auth?mode=signup'}>
-                  <Button
-                    className={`w-full ${plan.popular ? 'gradient-primary hover:opacity-90' : ''}`}
-                    variant={plan.popular ? 'default' : 'outline'}
-                    disabled={isSubscribed && plan.name !== 'Gratuito'}
-                  >
-                    {isSubscribed ? 'Plano Atual' : plan.cta}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                  {/* Price */}
+                  <div className="mb-8 flex items-baseline gap-2">
+                    {plan.originalPrice && (
+                      <span className="text-base text-muted-foreground line-through">
+                        {plan.originalPrice}
+                      </span>
+                    )}
+                    <span className="text-5xl md:text-6xl font-bold tracking-tight">{plan.price}</span>
+                    <span className="text-base text-muted-foreground">{plan.period}</span>
+                  </div>
+
+                  {/* CTA */}
+                  <Link to={user ? plan.href : '/auth?mode=signup'} className="block mb-8">
+                    <Button
+                      className={`w-full h-14 text-base rounded-xl ${plan.popular ? 'gradient-primary hover:opacity-90' : ''}`}
+                      variant={plan.popular ? 'default' : 'outline'}
+                      size="lg"
+                      disabled={isSubscribed && plan.name !== 'Gratuito'}
+                    >
+                      {isSubscribed ? 'Plano Atual' : plan.cta}
+                    </Button>
+                  </Link>
+
+                  {/* License info */}
+                  <div className="mb-6 pb-6 border-b border-border">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Shield className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-semibold">Licença Comercial</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Abrange todo o uso pessoal e comercial de música e efeitos sonoros.
+                    </p>
+                  </div>
+
+                  {/* Features */}
+                  <ul className="space-y-4 flex-1">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Card>
             </motion.div>
           ))}
         </motion.div>
