@@ -19,18 +19,15 @@ const staggerContainer = {
 const plans = [
   {
     name: 'Premium Mensal',
-    description: 'Para criadores frequentes',
     price: 'R$ 49',
     period: '/mês',
     features: [
-      'Músicas separadas por emoção',
-      'Downloads ilimitados',
-      'Atualização de músicas todo dia 7',
+      'Músicas',
+      'Efeitos Sonoros',
+      'Downloads limitados',
       'Acesso a toda biblioteca',
       'Favoritos e playlists',
       'Histórico de downloads',
-      'Licença comercial incluída',
-      'Suporte prioritário',
     ],
     limitations: [],
     cta: 'Assinar Mensal',
@@ -39,22 +36,26 @@ const plans = [
   },
   {
     name: 'Premium Anual',
-    description: 'Melhor custo-benefício',
     price: 'R$ 399',
     period: '/ano',
     originalPrice: 'R$ 588',
     features: [
-      'Todos os benefícios do Mensal',
+      'Músicas',
+      'Efeitos Sonoros',
+      'Downloads ilimitados',
+      'Atualização de músicas todo dia 7',
       'Live Edit a cada 15 dias',
-      '2 meses grátis',
-      'Acesso antecipado a novidades',
-      'Badge exclusivo de apoiador',
+      '1 mês de teste',
+      'Acesso a toda biblioteca',
+      'Favoritos e playlists',
+      'Histórico de downloads',
+      'Suporte prioritário',
     ],
     limitations: [],
     cta: 'Assinar Anual',
     href: '/checkout?plan=yearly',
     popular: false,
-    badge: 'Economia de R$ 189',
+    badge: 'Melhor custo-benefício',
   },
 ];
 
@@ -128,43 +129,8 @@ export default function PricingPage() {
 
                 {/* Card inner */}
                 <div className="flex flex-col h-full p-8 pt-10">
-                  {/* Plan name & description */}
-                  <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
-
-                  {/* Price */}
-                  <div className="mb-8 flex items-baseline gap-2">
-                    {plan.originalPrice && (
-                      <span className="text-base text-muted-foreground line-through">
-                        {plan.originalPrice}
-                      </span>
-                    )}
-                    <span className="text-5xl md:text-6xl font-bold tracking-tight">{plan.price}</span>
-                    <span className="text-base text-muted-foreground">{plan.period}</span>
-                  </div>
-
-                  {/* CTA */}
-                  <Link to={user ? plan.href : '/auth?mode=signup'} className="block mb-8">
-                    <Button
-                      className={`w-full h-14 text-base rounded-xl ${plan.popular ? 'gradient-primary hover:opacity-90' : ''}`}
-                      variant={plan.popular ? 'default' : 'outline'}
-                      size="lg"
-                      disabled={isSubscribed && plan.name !== 'Gratuito'}
-                    >
-                      {isSubscribed ? 'Plano Atual' : plan.cta}
-                    </Button>
-                  </Link>
-
-                  {/* License info */}
-                  <div className="mb-6 pb-6 border-b border-border">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <Shield className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-semibold">Licença Comercial</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Abrange todo o uso pessoal e comercial de música e efeitos sonoros.
-                    </p>
-                  </div>
+                  {/* Plan name */}
+                  <h3 className="text-2xl font-bold mb-6">{plan.name}</h3>
 
                   {/* Features */}
                   <ul className="space-y-4 flex-1">
