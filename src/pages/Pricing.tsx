@@ -95,7 +95,7 @@ export default function PricingPage() {
                   size="lg"
                   disabled={isSubscribed}
                 >
-                  {isSubscribed ? 'Acesso Ativo' : 'Comprar Agora'}
+                  {isSubscribed ? 'Acesso Ativo' : 'Acessar agora'}
                 </Button>
               </Link>
             </div>
