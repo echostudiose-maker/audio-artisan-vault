@@ -85,7 +85,7 @@ export default function PricingPage() {
               <h3 className="text-2xl font-bold mb-6">Premium</h3>
 
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl md:text-6xl font-bold tracking-tight">R$ 497</span>
+                <span className="text-5xl md:text-6xl font-bold tracking-tight">R$ 197</span>
                 <span className="text-base text-muted-foreground">pagamento único</span>
               </div>
 
