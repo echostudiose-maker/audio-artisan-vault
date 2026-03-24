@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Check, Crown, Shield, Download, Calendar, Video, Sparkles } from 'lucide-react';
+import { Check, Crown, Download, Calendar, Video, Sparkles, Headphones } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -16,49 +16,14 @@ const staggerContainer = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const plans = [
-  {
-    name: 'Premium Mensal',
-    price: 'R$ 49',
-    period: '/mês',
-    license: 'Licença Pessoal',
-    licenseDesc: 'Abrange todo o uso pessoal de música e efeitos sonoros.',
-    features: [
-      'Músicas',
-      'Efeitos Sonoros',
-      'Downloads limitados',
-      'Acesso a toda biblioteca',
-      'Favoritos e playlists',
-      'Histórico de downloads',
-    ],
-    cta: 'Assinar Mensal',
-    href: '/checkout?plan=monthly',
-    popular: true,
-  },
-  {
-    name: 'Premium Anual',
-    price: 'R$ 399',
-    period: '/ano',
-    originalPrice: 'R$ 588',
-    license: 'Licença Comercial',
-    licenseDesc: 'Abrange todo o uso pessoal e comercial de música e efeitos sonoros.',
-    features: [
-      'Músicas',
-      'Efeitos Sonoros',
-      'Downloads ilimitados',
-      'Atualização de músicas todo dia 7',
-      'Live Edit a cada 15 dias',
-      '1 mês de teste',
-      'Acesso a toda biblioteca',
-      'Favoritos e playlists',
-      'Histórico de downloads',
-      'Suporte prioritário',
-    ],
-    cta: 'Assinar Anual',
-    href: '/checkout?plan=yearly',
-    popular: false,
-    badge: 'Melhor custo-benefício',
-  },
+const features = [
+  'Todas as músicas',
+  'Todos os Efeitos Sonoros',
+  'Downloads ilimitados',
+  'Atualização de músicas todo dia 7',
+  'Live Edit a cada 15 dias',
+  'Histórico de downloads',
+  'Suporte prioritário',
 ];
 
 const benefits = [
@@ -68,9 +33,9 @@ const benefits = [
     description: 'Baixe quantos arquivos precisar sem restrições',
   },
   {
-    icon: Shield,
-    title: 'Licença Comercial',
-    description: 'Use em projetos comerciais sem preocupações',
+    icon: Headphones,
+    title: 'Acesso Completo',
+    description: 'Todas as músicas e efeitos sonoros disponíveis',
   },
   {
     icon: Calendar,
@@ -79,8 +44,8 @@ const benefits = [
   },
   {
     icon: Video,
-    title: 'Live Edit (Anual)',
-    description: 'Sessões de edição ao vivo a cada 15 dias para assinantes anuais',
+    title: 'Live Edit',
+    description: 'Sessões de edição ao vivo a cada 15 dias',
   },
 ];
 
@@ -94,95 +59,65 @@ export default function PricingPage() {
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center mb-14">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5">
             <Crown className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Planos e Preços</span>
+            <span className="text-sm font-medium text-primary">Acesso Vitalício</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Escolha o plano ideal para você
+            Pague uma vez, use para sempre
           </h1>
           <p className="text-lg text-muted-foreground">
-            Acesse nossa biblioteca completa de músicas e efeitos sonoros com licença comercial incluída.
+            Acesse nossa biblioteca completa de músicas e efeitos sonoros com uma única compra.
           </p>
         </motion.div>
 
-        {/* Plans Grid */}
-        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="mx-auto max-w-5xl grid gap-8 md:grid-cols-2 mb-20">
-          {plans.map((plan) => (
-            <motion.div key={plan.name} variants={fadeUp} className="flex flex-col">
-              {/* Outer wrapper */}
-              <div className={`relative rounded-2xl border p-1 flex flex-col h-full ${
-                plan.badge ? 'border-primary/40 shadow-[0_0_30px_-5px_hsl(var(--primary)/0.15)]' : 'border-border'
-              }`}>
-                {/* Badge */}
-                {plan.popular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="gradient-primary border-0 px-4 py-1 text-xs">
-                      Mais Popular
-                    </Badge>
-                  </div>
-                )}
-                {plan.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                    <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs flex items-center gap-1">
-                      <Sparkles className="h-3 w-3" />
-                      {plan.badge}
-                    </Badge>
-                  </div>
-                )}
+        {/* Single Plan Card */}
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-lg mb-20">
+          <div className="relative rounded-2xl border border-primary/40 p-1 shadow-[0_0_30px_-5px_hsl(var(--primary)/0.15)]">
+            {/* Badge */}
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+              <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
+                Acesso Vitalício
+              </Badge>
+            </div>
 
-                {/* Inner dark card: name + price + CTA */}
-                <div className="rounded-xl bg-secondary/50 p-8 pt-10">
-                  <h3 className="text-2xl font-bold mb-6">{plan.name}</h3>
+            {/* Inner card: price + CTA */}
+            <div className="rounded-xl bg-secondary/50 p-8 pt-10">
+              <h3 className="text-2xl font-bold mb-6">Premium</h3>
 
-                  <div className="mb-8 flex items-baseline gap-2">
-                    {plan.originalPrice && (
-                      <span className="text-base text-muted-foreground line-through">
-                        {plan.originalPrice}
-                      </span>
-                    )}
-                    <span className="text-5xl md:text-6xl font-bold tracking-tight">{plan.price}</span>
-                    <span className="text-base text-muted-foreground">{plan.period}</span>
-                  </div>
-
-                  <Link to={user ? plan.href : '/auth?mode=signup'} className="block">
-                    <Button
-                      className={`w-full h-14 text-base rounded-xl ${plan.popular ? 'gradient-primary hover:opacity-90' : ''}`}
-                      variant={plan.popular ? 'default' : 'outline'}
-                      size="lg"
-                      disabled={isSubscribed}
-                    >
-                      {isSubscribed ? 'Plano Atual' : plan.cta}
-                    </Button>
-                  </Link>
-                </div>
-
-                {/* License + Features below */}
-                <div className="p-8 flex flex-col flex-1">
-                  <div className="mb-6 pb-6 border-b border-border">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <Shield className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-semibold">{plan.license}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">{plan.licenseDesc}</p>
-                  </div>
-
-                  <ul className="space-y-4 flex-1">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="mb-8 flex items-baseline gap-2">
+                <span className="text-5xl md:text-6xl font-bold tracking-tight">R$ 497</span>
+                <span className="text-base text-muted-foreground">pagamento único</span>
               </div>
-            </motion.div>
-          ))}
+
+              <Link to={user ? '/checkout?plan=lifetime' : '/auth?mode=signup'} className="block">
+                <Button
+                  className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90"
+                  size="lg"
+                  disabled={isSubscribed}
+                >
+                  {isSubscribed ? 'Acesso Ativo' : 'Comprar Agora'}
+                </Button>
+              </Link>
+            </div>
+
+            {/* Features */}
+            <div className="p-8">
+              <ul className="space-y-4">
+                {features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </motion.div>
 
         {/* Benefits */}
         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="mx-auto max-w-4xl">
           <h2 className="text-2xl font-bold text-center mb-8">
-            Benefícios exclusivos para assinantes
+            O que você recebe
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit) => {
@@ -204,7 +139,7 @@ export default function PricingPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mx-auto max-w-2xl text-center mt-16 p-8 rounded-2xl bg-card border border-border">
           <h3 className="text-xl font-semibold mb-2">Tem dúvidas?</h3>
           <p className="text-muted-foreground mb-4">
-            Entre em contato conosco ou explore nossa FAQ para mais informações sobre licenciamento e uso comercial.
+            Entre em contato conosco ou explore nossa FAQ para mais informações.
           </p>
           <Button variant="outline">Ver FAQ</Button>
         </motion.div>

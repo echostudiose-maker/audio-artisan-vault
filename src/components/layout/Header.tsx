@@ -128,7 +128,7 @@ export function Header() {
                 <DropdownMenuItem asChild>
                   <Link to="/pricing" className="cursor-pointer text-primary">
                     <Crown className="mr-2 h-4 w-4" />
-                    Assinar Premium
+                    Comprar Premium
                   </Link>
                 </DropdownMenuItem>
               )}

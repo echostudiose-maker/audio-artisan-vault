@@ -69,7 +69,7 @@ export function AudioCard({ item, type }: AudioCardProps) {
 
   const handleDownload = () => {
     if (!isSubscribed) {
-      toast.error('Assine Premium para baixar');
+      toast.error('Adquira o Premium para baixar');
       return;
     }
     // Trigger download

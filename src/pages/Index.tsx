@@ -348,7 +348,7 @@ export default function Index() {
                 </Link>
                 <Link to="/pricing">
                   <Button size="lg" variant="ghost" className="text-white hover:bg-white/20">
-                    Ver Planos
+                    Comprar Premium
                   </Button>
                 </Link>
               </div>
