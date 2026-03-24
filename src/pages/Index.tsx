@@ -338,17 +338,12 @@ export default function Index() {
                 Comece a criar hoje mesmo
               </h2>
               <p className="mb-6 text-white/80">
-                Acesse toda a biblioteca de áudio com uma assinatura simples. Cancele quando quiser.
+                Acesse toda a biblioteca de áudio com uma única compra. Use para sempre.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <Link to="/auth?mode=signup">
                   <Button size="lg" variant="secondary" className="gap-2">
                     Criar Conta Grátis
-                  </Button>
-                </Link>
-                <Link to="/pricing">
-                  <Button size="lg" variant="ghost" className="text-white hover:bg-white/20">
-                    Comprar Premium
                   </Button>
                 </Link>
               </div>

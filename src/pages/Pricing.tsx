@@ -22,6 +22,8 @@ const features = [
   'Downloads ilimitados',
   'Atualização de músicas todo dia 7',
   'Live Edit a cada 15 dias',
+  'Garantia de 7 dias',
+  'Acesso de 1 ano',
   'Histórico de downloads',
   'Suporte prioritário',
 ];
