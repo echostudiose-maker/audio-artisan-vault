@@ -157,7 +157,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           <Link to="/pricing">
             <Button className={cn('w-full gap-2 gradient-primary hover:opacity-90', collapsed && 'px-0')} size={collapsed ? 'icon' : 'default'}>
               <Crown className="h-4 w-4 shrink-0" />
-              {!collapsed && 'Comprar Premium'}
+              {!collapsed && 'Acessar agora'}
             </Button>
           </Link>
         ) : (

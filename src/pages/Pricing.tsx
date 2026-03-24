@@ -22,6 +22,8 @@ const features = [
   'Downloads ilimitados',
   'Atualização de músicas todo dia 7',
   'Live Edit a cada 15 dias',
+  'Garantia de 7 dias',
+  'Acesso de 1 ano',
   'Histórico de downloads',
   'Suporte prioritário',
 ];
@@ -59,13 +61,13 @@ export default function PricingPage() {
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mx-auto max-w-3xl text-center mb-14">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5">
             <Crown className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Acesso Vitalício</span>
+            <span className="text-sm font-medium text-primary">Premium</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Pague uma vez, use para sempre
+            Invista uma vez, use para sempre
           </h1>
           <p className="text-lg text-muted-foreground">
-            Acesse nossa biblioteca completa de músicas e efeitos sonoros com uma única compra.
+            Acesse nossa biblioteca completa de músicas e efeitos sonoros para usar nos seu vídeos.
           </p>
         </motion.div>
 
@@ -76,7 +78,7 @@ export default function PricingPage() {
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
               <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs flex items-center gap-1">
                 <Sparkles className="h-3 w-3" />
-                Acesso Vitalício
+                Melhor custo-benefício
               </Badge>
             </div>
 
@@ -95,7 +97,7 @@ export default function PricingPage() {
                   size="lg"
                   disabled={isSubscribed}
                 >
-                  {isSubscribed ? 'Acesso Ativo' : 'Comprar Agora'}
+                  {isSubscribed ? 'Acesso Ativo' : 'Acessar agora'}
                 </Button>
               </Link>
             </div>
