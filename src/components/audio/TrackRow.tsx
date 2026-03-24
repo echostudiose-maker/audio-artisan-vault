@@ -48,7 +48,7 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
 
   const handleDownload = () => {
     if (!isSubscribed) {
-      toast.error('Assine Premium para baixar');
+      toast.error('Adquira o Premium para baixar');
       return;
     }
     const link = document.createElement('a');

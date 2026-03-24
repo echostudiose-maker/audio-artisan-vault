@@ -117,12 +117,12 @@ export default function DownloadsPage() {
             </div>
             <h1 className="text-2xl font-bold mb-4">Acesso Premium Necessário</h1>
             <p className="text-muted-foreground mb-6">
-              Assine o plano Premium para baixar arquivos e ter acesso ao histórico de downloads.
+              Adquira o Premium para baixar arquivos e ter acesso ao histórico de downloads.
             </p>
             <Link to="/pricing">
               <Button className="gap-2 gradient-primary hover:opacity-90">
                 <Crown className="h-4 w-4" />
-                Ver Planos
+                Comprar Premium
               </Button>
             </Link>
           </div>
