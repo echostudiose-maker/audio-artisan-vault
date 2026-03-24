@@ -98,7 +98,7 @@ export default function MusicPage() {
       <section className="relative bg-gradient-to-b from-primary/8 to-transparent">
         <div className="container py-16 text-center">
           <motion.h1 variants={fadeUp} initial="hidden" animate="visible" className="text-4xl md:text-5xl font-bold mb-4">
-            O Poder das <span className="text-primary">Músicas</span>
+            Encontre a trilha sonora <span className="text-primary">perfeita</span>
           </motion.h1>
           <motion.p variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }} className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Explore nossa biblioteca de músicas organizadas por emoção. Áudio profissional para seus vídeos, podcasts e projetos criativos.
