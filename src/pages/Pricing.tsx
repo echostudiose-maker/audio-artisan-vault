@@ -76,7 +76,7 @@ export default function PricingPage() {
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
               <Badge variant="secondary" className="bg-success/10 text-success border-success/20 px-4 py-1 text-xs flex items-center gap-1">
                 <Sparkles className="h-3 w-3" />
-                Acesso Vitalício
+                Melhor custo-benefício
               </Badge>
             </div>
 
