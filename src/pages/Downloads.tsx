@@ -122,7 +122,7 @@ export default function DownloadsPage() {
             <Link to="/pricing">
               <Button className="gap-2 gradient-primary hover:opacity-90">
                 <Crown className="h-4 w-4" />
-                Comprar Premium
+                Acessar agora
               </Button>
             </Link>
           </div>
