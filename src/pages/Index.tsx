@@ -56,13 +56,13 @@ const benefits = [
   },
   {
     icon: Shield,
-    title: 'Licença Comercial',
+    title: 'Uso 100% seguro',
     description: 'Use em projetos comerciais sem preocupações',
   },
   {
     icon: Zap,
     title: 'Atualizações Constantes',
-    description: 'Novos arquivos adicionados regularmente',
+    description: 'Todo dia 7 teremos músicas novas',
   },
   {
     icon: Headphones,
