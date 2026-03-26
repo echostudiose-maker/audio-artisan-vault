@@ -74,9 +74,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <Music className="h-5 w-5 text-white" />
           </div>
           {!collapsed && (
-            <span className="text-xl font-bold whitespace-nowrap uppercase">
-              <span className="text-primary">Echo</span>
-              <span className="text-foreground">Music</span>
+            <span className="text-xl font-bold whitespace-nowrap">
+              <span className="text-primary">echo</span>
+              <span className="text-foreground">music</span>
             </span>
           )}
         </Link>
