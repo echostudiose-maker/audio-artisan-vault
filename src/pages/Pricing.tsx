@@ -113,7 +113,7 @@ export default function PricingPage() {
                 {features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-sm">{feature}</span>
+                    <span className="text-sm leading-relaxed">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -123,10 +123,10 @@ export default function PricingPage() {
 
         {/* Benefits */}
         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="mx-auto max-w-4xl">
-          <h2 className="text-2xl font-bold text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 leading-tight">
             O que você recebe
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit) => {
               const Icon = benefit.icon;
               return (
@@ -134,8 +134,8 @@ export default function PricingPage() {
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-1">{benefit.title}</h3>
-                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                  <h3 className="font-semibold mb-2 text-base">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{benefit.description}</p>
                 </motion.div>
               );
             })}
@@ -143,9 +143,9 @@ export default function PricingPage() {
         </motion.div>
 
         {/* FAQ Teaser */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mx-auto max-w-2xl text-center mt-16 p-8 rounded-2xl bg-card border border-border">
-          <h3 className="text-xl font-semibold mb-2">Tem dúvidas?</h3>
-          <p className="text-muted-foreground mb-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mx-auto max-w-2xl text-center mt-20 p-10 rounded-2xl bg-card border border-border">
+          <h3 className="text-xl md:text-2xl font-semibold mb-3 leading-tight">Tem dúvidas?</h3>
+          <p className="text-muted-foreground mb-6 leading-relaxed">
             Entre em contato conosco ou explore nossa FAQ para mais informações.
           </p>
           <Button variant="outline">Ver FAQ</Button>
