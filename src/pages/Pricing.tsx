@@ -91,7 +91,12 @@ export default function PricingPage() {
                 <span className="text-base text-muted-foreground">pagamento único</span>
               </div>
 
-              <Link to={user ? '/checkout?plan=lifetime' : '/auth?mode=signup'} className="block">
+              <a
+                href="https://pay.hotmart.com/U104604346M"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
                 <Button
                   className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90"
                   size="lg"
@@ -99,7 +104,7 @@ export default function PricingPage() {
                 >
                   {isSubscribed ? 'Acesso Ativo' : 'Acessar agora'}
                 </Button>
-              </Link>
+              </a>
             </div>
 
             {/* Features */}
