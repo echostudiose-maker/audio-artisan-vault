@@ -64,7 +64,7 @@ export default function PricingPage() {
             <span className="text-sm font-medium text-primary">Premium</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Invista uma vez, use para sempre
+            Pague uma vez, acesse por 1 ano completo
           </h1>
           <p className="text-lg text-muted-foreground">
             Acesse nossa biblioteca completa de músicas e efeitos sonoros para usar nos seu vídeos.
