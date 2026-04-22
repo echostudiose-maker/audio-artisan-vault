@@ -41,13 +41,13 @@ const benefits = [
   },
   {
     icon: Calendar,
-    title: 'Músicas Novas Todo Dia 7',
+    title: 'Músicas Novas',
     description: 'Biblioteca atualizada mensalmente com novos conteúdos',
   },
   {
     icon: Video,
     title: 'Live Edit',
-    description: 'Sessões de edição ao vivo a cada 15 dias',
+    description: 'Sessões de edição ao vivo no Discord',
   },
 ];
 
