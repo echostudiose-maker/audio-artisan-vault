@@ -132,7 +132,11 @@
   label, span, p, a, button, li, th, td, div {
     font-family: 'Coolvetica', sans-serif;
     font-weight: 400;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.005em;
+  }
+
+  h1, h2, h3 {
+    letter-spacing: -0.01em;
   }
 
   input, textarea, select {
