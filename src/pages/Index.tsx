@@ -120,19 +120,19 @@ export default function Index() {
           src="/videos/hero-bg.mp4"
         />
         <div className="absolute inset-0 bg-background/60" />
-        <div className="container relative py-12 md:py-28 text-center px-4">
+        <div className="container relative py-16 md:py-32 text-center px-4">
           <motion.h1
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-wide"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.15] max-w-4xl mx-auto"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
           >
-            Deixe o seu vídeo livre de direitos autorais<br className="hidden sm:block" />
-            <span className="text-primary"> com qualquer estilo de música.</span>
+            Deixe o seu vídeo livre de direitos autorais{' '}
+            <span className="text-primary">com qualquer estilo de música.</span>
           </motion.h1>
           <motion.p
-            className="text-sm sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 md:mb-8 px-2"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-2 leading-relaxed"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
@@ -294,7 +294,7 @@ export default function Index() {
           viewport={{ once: true, amount: 0.3 }}
           custom={0}
         >
-          <h2 className="text-xl font-bold text-center mb-8">Tudo que você precisa</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 leading-tight">Tudo que você precisa</h2>
           <motion.div
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
             variants={staggerContainer}
@@ -314,8 +314,8 @@ export default function Index() {
                   <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-1">{benefit.title}</h3>
-                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                  <h3 className="font-semibold mb-2 text-base">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{benefit.description}</p>
                 </motion.div>
               );
             })}
@@ -334,11 +334,11 @@ export default function Index() {
           <div className="relative overflow-hidden rounded-2xl gradient-primary p-8 md:p-12">
             <div className="relative z-10 mx-auto max-w-2xl text-center text-white">
               <Crown className="mx-auto mb-4 h-10 w-10" />
-              <h2 className="mb-4 text-2xl font-bold md:text-3xl">
+              <h2 className="mb-4 text-2xl font-bold md:text-3xl leading-tight">
                 Comece a criar hoje mesmo
               </h2>
-              <p className="mb-6 text-white/80">
-                Acesse toda a biblioteca de áudio com uma única compra. Use para sempre.
+              <p className="mb-8 text-white/90 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+                Acesse toda a biblioteca de áudio com um único investimento. Use para sempre.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <a href="https://pay.hotmart.com/R105509213E" target="_blank" rel="noopener noreferrer">
