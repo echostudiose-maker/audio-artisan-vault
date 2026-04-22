@@ -20,12 +20,12 @@ const features = [
   'Todas as músicas',
   'Todos os Efeitos Sonoros',
   'Downloads ilimitados',
-  'Atualização de músicas todo dia 7',
-  'Live Edit a cada 15 dias',
+  'Atualização de músicas',
+  'Live Edit 1x por mês no Discord',
   'Garantia de 7 dias',
   'Acesso de 1 ano',
   'Histórico de downloads',
-  'Suporte prioritário',
+  'Suporte',
 ];
 
 const benefits = [
