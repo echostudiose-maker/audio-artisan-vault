@@ -1,161 +1,83 @@
-// Hotmart webhook handler
-// Handles purchase events: activates subscription if user already exists,
-// otherwise stores in pending_hotmart_purchases for activation on signup.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { corsHeaders } from "../_shared/cors.ts";
 
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-hotmart-hottok",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
-
-const APPROVED_EVENTS = new Set([
-  "PURCHASE_APPROVED",
-  "PURCHASE_COMPLETE",
-  "SUBSCRIPTION_REACTIVATED",
-]);
-
-const CANCELLED_EVENTS = new Set([
-  "PURCHASE_REFUNDED",
-  "PURCHASE_CHARGEBACK",
-  "PURCHASE_CANCELED",
-  "PURCHASE_EXPIRED",
-  "SUBSCRIPTION_CANCELLATION",
-]);
+const SITE_URL = "https://audio-artisan-vault.lovable.app";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return new Response("ok", { headers: corsHeaders });
   }
-
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
   try {
-    const expectedToken = Deno.env.get("HOTMART_HOTTOK");
-    if (!expectedToken) {
-      console.error("HOTMART_HOTTOK not configured");
-      return json({ error: "Server misconfigured" }, 500);
+    const body = await req.json();
+    const hottok = body.hottok;
+    const expectedHottok = Deno.env.get("HOTMART_HOTTOK");
+    if (!expectedHottok || hottok !== expectedHottok) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "Content-Type": "application/json" } });
     }
-
-    // Hotmart sends the hottok either as header or in payload
-    const headerToken =
-      req.headers.get("x-hotmart-hottok") ?? req.headers.get("X-HOTMART-HOTTOK");
-
-    const body = await req.json().catch(() => null);
-    if (!body) return json({ error: "Invalid JSON" }, 400);
-
-    const payloadToken = body?.hottok ?? body?.data?.hottok;
-    const providedToken = headerToken ?? payloadToken;
-
-    if (providedToken !== expectedToken) {
-      console.warn("Invalid hottok");
-      return json({ error: "Unauthorized" }, 401);
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const event = body.event;
+    const data = body.data;
+    if (!event || !data) {
+      return new Response(JSON.stringify({ error: "Invalid payload" }), { status: 400, headers: { "Content-Type": "application/json" } });
     }
-
-    const event: string = body?.event ?? body?.data?.event ?? "";
-    const buyerEmail: string | undefined =
-      body?.data?.buyer?.email ?? body?.buyer?.email ?? body?.email;
-    const transactionCode: string | undefined =
-      body?.data?.purchase?.transaction ??
-      body?.data?.purchase?.transaction_code ??
-      body?.transaction;
-
+    const buyerEmail = data.buyer?.email?.toLowerCase();
+    const buyerName = data.buyer?.name || "";
+    const transactionCode = data.purchase?.transaction || data.purchase?.order_date;
     if (!buyerEmail) {
-      return json({ error: "Missing buyer email" }, 400);
+      return new Response(JSON.stringify({ error: "No buyer email" }), { status: 400, headers: { "Content-Type": "application/json" } });
     }
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
-
-    const normalizedEmail = buyerEmail.toLowerCase().trim();
-
-    // Find existing user by email
-    const { data: usersList, error: listErr } = await supabase.auth.admin.listUsers();
-    if (listErr) {
-      console.error("listUsers error:", listErr);
-      return json({ error: "Failed to lookup user" }, 500);
+    const now = new Date();
+    const oneYearLater = new Date(now);
+    oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+    let foundUser = null;
+    let page = 1;
+    while (!foundUser) {
+      const { data: { users }, error: userError } = await supabase.auth.admin.listUsers({ page, perPage: 1000 });
+      if (userError || !users || users.length === 0) break;
+      foundUser = users.find((u) => u.email?.toLowerCase() === buyerEmail) ?? null;
+      if (users.length < 1000) break;
+      page++;
     }
-    const existingUser = usersList?.users?.find(
-      (u) => u.email?.toLowerCase() === normalizedEmail,
-    );
-
-    if (APPROVED_EVENTS.has(event)) {
-      if (existingUser) {
-        // Upsert active subscription for this user
-        const { data: existingSub } = await supabase
-          .from("subscriptions")
-          .select("id")
-          .eq("user_id", existingUser.id)
-          .maybeSingle();
-
-        const subPayload = {
-          user_id: existingUser.id,
-          status: "active" as const,
-          plan_type: "annual",
-          current_period_start: new Date().toISOString(),
-          current_period_end: new Date(
-            Date.now() + 365 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-          stripe_subscription_id: transactionCode ?? null,
-        };
-
-        if (existingSub) {
-          await supabase
-            .from("subscriptions")
-            .update(subPayload)
-            .eq("id", existingSub.id);
+    switch (event) {
+      case "PURCHASE_COMPLETE":
+      case "PURCHASE_APPROVED": {
+        if (!foundUser) {
+          const randomPassword = [...crypto.getRandomValues(new Uint8Array(20))].map((b) => b.toString(16).padStart(2, "0")).join("") + "Aa1!";
+          const { data: newUserData, error: createError } = await supabase.auth.admin.createUser({ email: buyerEmail, password: randomPassword, email_confirm: true, user_metadata: { full_name: buyerName } });
+          if (createError) {
+            return new Response(JSON.stringify({ error: "Failed to create user account" }), { status: 500, headers: { "Content-Type": "application/json" } });
+          }
+          foundUser = newUserData.user;
+          await supabase.from("subscriptions").insert({ user_id: foundUser.id, status: "active", plan_type: "lifetime", current_period_start: now.toISOString(), current_period_end: oneYearLater.toISOString(), stripe_customer_id: buyerEmail, stripe_subscription_id: transactionCode });
+          await supabase.auth.admin.generateLink({ type: "recovery", email: buyerEmail, options: { redirectTo: `${SITE_URL}/auth?mode=reset` } });
         } else {
-          await supabase.from("subscriptions").insert(subPayload);
+          const { data: existingSub } = await supabase.from("subscriptions").select("id").eq("user_id", foundUser.id).single();
+          if (existingSub) {
+            await supabase.from("subscriptions").update({ status: "active", plan_type: "lifetime", current_period_start: now.toISOString(), current_period_end: oneYearLater.toISOString(), stripe_customer_id: buyerEmail, stripe_subscription_id: transactionCode, updated_at: now.toISOString() }).eq("user_id", foundUser.id);
+          } else {
+            await supabase.from("subscriptions").insert({ user_id: foundUser.id, status: "active", plan_type: "lifetime", current_period_start: now.toISOString(), current_period_end: oneYearLater.toISOString(), stripe_customer_id: buyerEmail, stripe_subscription_id: transactionCode });
+          }
         }
-
-        return json({ success: true, action: "subscription_activated" });
-      } else {
-        // Store as pending — will be activated on signup via trigger
-        await supabase
-          .from("pending_hotmart_purchases")
-          .upsert(
-            {
-              buyer_email: normalizedEmail,
-              event,
-              transaction_code: transactionCode ?? null,
-              payload: body,
-              processed: false,
-            },
-            { onConflict: "buyer_email" },
-          );
-
-        return json({ success: true, action: "pending_stored" });
+        break;
+      }
+      case "PURCHASE_CANCELED":
+      case "PURCHASE_REFUNDED":
+      case "PURCHASE_CHARGEBACK": {
+        if (foundUser) await supabase.from("subscriptions").update({ status: "cancelled", updated_at: now.toISOString() }).eq("user_id", foundUser.id);
+        break;
+      }
+      case "PURCHASE_DELAYED":
+      case "PURCHASE_PROTEST": {
+        if (foundUser) await supabase.from("subscriptions").update({ status: "pending", updated_at: now.toISOString() }).eq("user_id", foundUser.id);
+        break;
       }
     }
-
-    if (CANCELLED_EVENTS.has(event)) {
-      if (existingUser) {
-        await supabase
-          .from("subscriptions")
-          .update({ status: "cancelled" })
-          .eq("user_id", existingUser.id);
-      } else {
-        // Remove pending so they don't get activated later
-        await supabase
-          .from("pending_hotmart_purchases")
-          .delete()
-          .eq("buyer_email", normalizedEmail);
-      }
-      return json({ success: true, action: "subscription_cancelled" });
-    }
-
-    return json({ success: true, action: "ignored", event });
-  } catch (err) {
-    console.error("Webhook error:", err);
-    return json({ error: "Internal error" }, 500);
+    return new Response(JSON.stringify({ status: "ok", event, email: buyerEmail }), { status: 200, headers: { "Content-Type": "application/json" } });
+  } catch (error) {
+    console.error("Webhook error:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500, headers: { "Content-Type": "application/json" } });
   }
 });
-
-function json(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
