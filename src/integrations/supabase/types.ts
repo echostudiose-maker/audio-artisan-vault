@@ -158,6 +158,39 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_hotmart_purchases: {
+        Row: {
+          buyer_email: string
+          created_at: string | null
+          event: string
+          id: string
+          payload: Json | null
+          processed: boolean | null
+          processed_at: string | null
+          transaction_code: string | null
+        }
+        Insert: {
+          buyer_email: string
+          created_at?: string | null
+          event: string
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          processed_at?: string | null
+          transaction_code?: string | null
+        }
+        Update: {
+          buyer_email?: string
+          created_at?: string | null
+          event?: string
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          processed_at?: string | null
+          transaction_code?: string | null
+        }
+        Relationships: []
+      }
       playlist_items: {
         Row: {
           created_at: string
