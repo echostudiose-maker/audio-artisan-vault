@@ -341,11 +341,11 @@ export default function Index() {
                 Acesse toda a biblioteca de áudio com uma única compra. Use para sempre.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <Link to="/auth?mode=signup">
+                <a href="https://pay.hotmart.com/Y105507230D" target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="secondary" className="gap-2">
-                    Criar Conta Grátis
+                    Acessar agora
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
