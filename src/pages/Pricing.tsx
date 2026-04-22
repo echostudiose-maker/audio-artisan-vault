@@ -92,7 +92,7 @@ export default function PricingPage() {
               </div>
 
               <a
-                href="https://pay.hotmart.com/U104604346M"
+                href="https://pay.hotmart.com/R105509213E"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block"
