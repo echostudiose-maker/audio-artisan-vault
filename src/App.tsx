@@ -22,6 +22,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import License from "./pages/License";
 import Welcome from "./pages/Welcome";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,8 @@ const App = () => (
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/license" element={<License />} />
                 <Route path="/welcome" element={<Welcome />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <WhatsAppButton />
