@@ -18,6 +18,10 @@ import Playlists from "./pages/Playlists";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import License from "./pages/License";
+import Welcome from "./pages/Welcome";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +45,10 @@ const App = () => (
                 <Route path="/playlists" element={<Playlists />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/license" element={<License />} />
+                <Route path="/welcome" element={<Welcome />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <WhatsAppButton />

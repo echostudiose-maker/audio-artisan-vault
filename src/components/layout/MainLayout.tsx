@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { PlayerBar } from '../player/PlayerBar';
@@ -24,6 +25,17 @@ export function MainLayout({ children }: MainLayoutProps) {
         <main className="min-h-[calc(100vh-4rem)] pb-36 md:pb-24">
           {children}
         </main>
+        <footer className="border-t border-border bg-card/50 py-6 mb-20 md:mb-16">
+          <div className="container flex flex-col items-center gap-3 text-sm text-muted-foreground">
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/terms" className="hover:text-foreground transition-colors">Termos de Uso</Link>
+              <Link to="/privacy" className="hover:text-foreground transition-colors">Privacidade</Link>
+              <Link to="/license" className="hover:text-foreground transition-colors">Licenciamento</Link>
+              <Link to="/pricing" className="hover:text-foreground transition-colors">Premium</Link>
+            </div>
+            <p>&copy; {new Date().getFullYear()} EchoMusic. Todos os direitos reservados.</p>
+          </div>
+        </footer>
         <PlayerBar />
       </div>
 

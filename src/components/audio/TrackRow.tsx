@@ -1,14 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { usePlayer } from '@/contexts/PlayerContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWaveform } from '@/hooks/useWaveform';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Play, Pause, Heart, Download, Plus, MoreHorizontal } from 'lucide-react';
+import { Play, Pause, Heart, Download, Plus, MoreHorizontal, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { MusicTrack, SoundEffect } from '@/types/database';
 import { EMOTION_LABELS, STYLE_LABELS } from '@/types/database';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface TrackRowProps {
   item: MusicTrack | SoundEffect;
@@ -20,6 +21,7 @@ interface TrackRowProps {
 export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
   const { play, pause, isPlaying, isCurrentTrack, currentTime, duration } = usePlayer();
   const { user, isSubscribed } = useAuth();
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const isActive = isCurrentTrack(item.id);
   const progress = isActive && duration > 0 ? currentTime / duration : 0;
@@ -46,18 +48,50 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    if (!user) {
+      toast.error('Faça login para baixar');
+      return;
+    }
     if (!isSubscribed) {
       toast.error('Adquira o Premium para baixar');
       return;
     }
-    const link = document.createElement('a');
-    link.href = item.file_url;
-    link.download = item.title;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success('Download iniciado!');
+    setIsDownloading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Sessão expirada. Faça login novamente.');
+        return;
+      }
+
+      const response = await supabase.functions.invoke('download', {
+        body: {
+          fileUrl: item.file_url,
+          type,
+          itemId: item.id,
+          title: item.title,
+        },
+      });
+
+      if (response.error) {
+        toast.error(response.error.message || 'Erro ao gerar download');
+        return;
+      }
+
+      const { url } = response.data;
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = item.title;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success('Download iniciado!');
+    } catch {
+      toast.error('Erro ao baixar. Tente novamente.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const coverImage = coverOverride || (isMusic ? track.cover_image_url : sfx.icon_url);
@@ -162,8 +196,9 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
           size="icon"
           className="h-8 w-8 text-muted-foreground hover:text-primary"
           onClick={handleDownload}
+          disabled={isDownloading}
         >
-          <Download className="h-4 w-4" />
+          {isDownloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
         </Button>
       </div>
     </div>
