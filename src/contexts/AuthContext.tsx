@@ -74,6 +74,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
 
+        // Redirect to reset password form when recovery link is clicked
+        if (event === 'PASSWORD_RECOVERY' && window.location.pathname !== '/auth') {
+          window.location.href = '/auth?mode=reset';
+          return;
+        }
+
         if (session?.user) {
           // Defer data fetching to avoid deadlock
           setTimeout(() => {
