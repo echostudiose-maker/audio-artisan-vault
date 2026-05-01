@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { CategoryCard } from '@/components/audio/CategoryCard';
 import { TrackRow } from '@/components/audio/TrackRow';
@@ -72,6 +73,7 @@ const benefits = [
 ];
 
 export default function Index() {
+  const { isSubscribed } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [recentTracks, setRecentTracks] = useState<MusicTrack[]>([]);
   const [popularTracks, setPopularTracks] = useState<MusicTrack[]>([]);
@@ -162,7 +164,7 @@ export default function Index() {
             animate="visible"
             custom={5}
           >
-            <Link to="/pricing">
+            <Link to={isSubscribed ? '/music' : '/pricing'}>
               <Button size="lg" className="gradient-primary hover:opacity-90 text-base px-8">
                 Acessar agora
               </Button>
@@ -341,7 +343,7 @@ export default function Index() {
                 Acesse toda a biblioteca de áudio com um único investimento. Use para sempre.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <Link to="/pricing">
+                <Link to={isSubscribed ? '/music' : '/pricing'}>
                   <Button size="lg" variant="secondary" className="gap-2">
                     Acessar agora
                   </Button>
