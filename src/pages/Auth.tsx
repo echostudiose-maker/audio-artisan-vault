@@ -223,106 +223,71 @@ export default function Auth() {
                   ? 'Defina sua nova senha'
                   : view === 'forgot' || view === 'forgot-sent'
                   ? 'Recuperar senha'
-                  : mode === 'login'
-                  ? 'Entre na sua conta para continuar'
-                  : 'Crie sua conta para começar'}
+                  : 'Entre na sua conta para continuar'}
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {view === 'auth' && (
-              <>
-                <Tabs value={mode} onValueChange={(v) => setMode(v as 'login' | 'signup')}>
-                  <TabsList className="grid w-full grid-cols-2 mb-4">
-                    <TabsTrigger value="login">Entrar</TabsTrigger>
-                    <TabsTrigger value="signup">Cadastrar</TabsTrigger>
-                  </TabsList>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                    maxLength={255}
+                    autoComplete="email"
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                  )}
+                </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {mode === 'signup' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="fullName">Nome completo</Label>
-                        <Input
-                          id="fullName"
-                          type="text"
-                          placeholder="Seu nome"
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
-                          disabled={isSubmitting}
-                          maxLength={100}
-                          autoComplete="name"
-                        />
-                        {errors.fullName && (
-                          <p className="text-sm text-destructive">{errors.fullName}</p>
-                        )}
-                      </div>
-                    )}
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="seu@email.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={isSubmitting}
-                        maxLength={255}
-                        autoComplete="email"
-                      />
-                      {errors.email && (
-                        <p className="text-sm text-destructive">{errors.email}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="password">Senha</Label>
-                        {mode === 'login' && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setForgotEmail(email);
-                              setView('forgot');
-                            }}
-                            className="text-xs text-primary hover:underline"
-                          >
-                            Esqueci minha senha
-                          </button>
-                        )}
-                      </div>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        disabled={isSubmitting}
-                        maxLength={72}
-                        autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                      />
-                      {errors.password && (
-                        <p className="text-sm text-destructive">{errors.password}</p>
-                      )}
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full gradient-primary hover:opacity-90"
-                      disabled={isSubmitting}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Senha</Label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setForgotEmail(email);
+                        setView('forgot');
+                      }}
+                      className="text-xs text-primary hover:underline"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {mode === 'login' ? 'Entrando...' : 'Criando conta...'}
-                        </>
-                      ) : (
-                        mode === 'login' ? 'Entrar' : 'Criar conta'
-                      )}
-                    </Button>
-                  </form>
-                </Tabs>
-              </>
+                      Esqueci minha senha
+                    </button>
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isSubmitting}
+                    maxLength={72}
+                    autoComplete="current-password"
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-destructive">{errors.password}</p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full gradient-primary hover:opacity-90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Entrando...</>
+                  ) : (
+                    'Entrar'
+                  )}
+                </Button>
+              </form>
             )}
 
             {view === 'forgot' && (
