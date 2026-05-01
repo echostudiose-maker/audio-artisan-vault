@@ -149,10 +149,10 @@ export default function Index() {
             animate="visible"
           >
             <motion.span variants={fadeUp} custom={2} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
-              <Music className="h-4 w-4" /> + de 1000 músicas
+              <Music className="h-4 w-4" /> + de 500 músicas
             </motion.span>
             <motion.span variants={fadeUp} custom={3} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
-              <Waves className="h-4 w-4" /> + de 5000 efeitos sonoros
+              <Waves className="h-4 w-4" /> + de 2000 efeitos sonoros
             </motion.span>
             <motion.span variants={fadeUp} custom={4} className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
               <Zap className="h-4 w-4" /> Atualizações todo mês
