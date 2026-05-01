@@ -81,7 +81,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
 
-        // Redirect to reset password form when recovery link is clicked
+        // Redirect to reset password form when recovery or signup confirmation link is clicked
+        if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') &&
+            window.location.hash.includes('type=signup') &&
+            window.location.pathname !== '/auth') {
+          window.location.href = '/auth?mode=reset';
+          return;
+        }
         if (event === 'PASSWORD_RECOVERY' && window.location.pathname !== '/auth') {
           window.location.href = '/auth?mode=reset';
           return;
@@ -120,8 +126,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName?: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
+    const redirectUrl = `${window.location.origin}/auth?mode=reset`;
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
