@@ -113,14 +113,19 @@ export default function PricingPage() {
                   </Button>
                 </a>
               ) : (
-                <Link to="/auth?mode=signup" className="block">
+                <a
+                  href={HOTMART_CHECKOUT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
                   <Button
-                    className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90"
+                    className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90 gap-2"
                     size="lg"
                   >
-                    Criar conta e acessar
+                    Quero acessar <ExternalLink className="h-4 w-4" />
                   </Button>
-                </Link>
+                </a>
               )}
             </div>
 

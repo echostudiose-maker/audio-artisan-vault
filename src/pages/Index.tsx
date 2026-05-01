@@ -162,11 +162,11 @@ export default function Index() {
             animate="visible"
             custom={5}
           >
-            <a href="https://pay.hotmart.com/R105509213E" target="_blank" rel="noopener noreferrer">
+            <Link to="/pricing">
               <Button size="lg" className="gradient-primary hover:opacity-90 text-base px-8">
                 Acessar agora
               </Button>
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -341,11 +341,11 @@ export default function Index() {
                 Acesse toda a biblioteca de áudio com um único investimento. Use para sempre.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <a href="https://pay.hotmart.com/R105509213E" target="_blank" rel="noopener noreferrer">
+                <Link to="/pricing">
                   <Button size="lg" variant="secondary" className="gap-2">
                     Acessar agora
                   </Button>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
