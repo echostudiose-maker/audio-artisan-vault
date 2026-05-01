@@ -144,9 +144,6 @@ export function Header() {
             <Link to="/auth">
               <Button variant="ghost" size="sm" className="text-xs md:text-sm">Entrar</Button>
             </Link>
-            <Link to="/auth?mode=signup" className="hidden sm:block">
-              <Button className="gradient-primary" size="sm">Cadastrar</Button>
-            </Link>
           </div>
         )}
       </div>
