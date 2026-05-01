@@ -99,33 +99,21 @@ export default function PricingPage() {
                   Acesso Ativo
                 </Button>
               ) : user ? (
-                <a
-                  href={`${HOTMART_CHECKOUT_URL}?email=${encodeURIComponent(user.email || '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
+                <Button
+                  className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90 gap-2"
+                  size="lg"
+                  onClick={() => window.open(`${HOTMART_CHECKOUT_URL}?email=${encodeURIComponent(user.email || '')}`, '_blank')}
                 >
-                  <Button
-                    className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90 gap-2"
-                    size="lg"
-                  >
-                    Acessar agora <ExternalLink className="h-4 w-4" />
-                  </Button>
-                </a>
+                  Acessar agora <ExternalLink className="h-4 w-4" />
+                </Button>
               ) : (
-                <a
-                  href={HOTMART_CHECKOUT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
+                <Button
+                  className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90 gap-2"
+                  size="lg"
+                  onClick={() => window.open(HOTMART_CHECKOUT_URL, '_blank')}
                 >
-                  <Button
-                    className="w-full h-14 text-base rounded-xl gradient-primary hover:opacity-90 gap-2"
-                    size="lg"
-                  >
-                    Quero acessar <ExternalLink className="h-4 w-4" />
-                  </Button>
-                </a>
+                  Quero acessar <ExternalLink className="h-4 w-4" />
+                </Button>
               )}
             </div>
 
