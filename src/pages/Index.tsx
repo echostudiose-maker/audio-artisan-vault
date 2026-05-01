@@ -124,14 +124,13 @@ export default function Index() {
         <div className="absolute inset-0 bg-background/60" />
         <div className="container relative py-16 md:py-32 text-center px-4">
           <motion.h1
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.15] max-w-4xl mx-auto"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.15] max-w-2xl mx-auto"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
           >
-            Deixe o seu vídeo livre de direitos autorais<br />
-            <span className="text-primary">com qualquer estilo de música.</span>
+            Deixe o seu vídeo livre de direitos autorais <span className="text-primary">com qualquer estilo de música.</span>
           </motion.h1>
           <motion.p
             className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-2 leading-relaxed"
