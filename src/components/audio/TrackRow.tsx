@@ -80,12 +80,19 @@ export function TrackRow({ item, type, index, coverOverride }: TrackRowProps) {
       }
 
       const { url } = response.data;
+
+      // Fetch as blob to force download (cross-origin URLs ignore download attribute)
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const ext = url.split('?')[0].split('.').pop() || 'mp3';
       const link = document.createElement('a');
-      link.href = url;
-      link.download = item.title;
+      link.href = blobUrl;
+      link.download = `${item.title}.${ext}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
       toast.success('Download iniciado!');
     } catch {
       toast.error('Erro ao baixar. Tente novamente.');
